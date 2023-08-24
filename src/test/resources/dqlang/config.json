@@ -1,0 +1,50 @@
+{
+  "version": 1.0,
+  "context": "test-api",
+  "environment": "TEST",
+  "base_url": "https://reqres.in/",
+  "load_tests": [
+    {
+      "artifact": {
+        "object": "id10",
+        "activity": "id12"
+      },
+      "description" :"Great",
+      "stimulus": {
+        "workload": {
+          "unit": "SECONDS",
+          "load_profile": {
+            "base_load": {
+              "name": "LOW"
+            },
+            "target_load": {
+              "name": "HIGH"
+            }
+          }
+        },
+        "accuracy": 100
+      },
+      "response_measure": {
+        "response_time": "SATISFIED"
+      },
+      "endpoint": {
+        "field": "/api/users/2",
+        "operation": "GET",
+        "path_variables": {
+        },
+        "url_parameter": {
+        },
+        "request_parameter": {
+        },
+        "payload": {
+        },
+        "responses": [
+          {
+            "expected_code": 200,
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ]
+}
