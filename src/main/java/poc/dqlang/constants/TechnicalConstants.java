@@ -6,7 +6,7 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class Technical {
+public class TechnicalConstants {
 
     @JsonProperty("warm_up_duration")
     private int warmUpDuration;

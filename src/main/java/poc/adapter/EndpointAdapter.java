@@ -21,6 +21,9 @@ public class EndpointAdapter {
         String name = this.getName(loadTest.getDescription());
         builder.append(name);
 
+        String repetition = "${stimulus.repetition}";
+        builder.append("repetition = " + repetition + newLine);
+
         Endpoint endpoint = loadTest.getEndpoint();
         String request = this.getRequestConfig(endpoint);
         builder.append(request);

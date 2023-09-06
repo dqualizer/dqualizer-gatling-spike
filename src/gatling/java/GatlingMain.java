@@ -3,8 +3,11 @@ import io.gatling.core.config.GatlingPropertiesBuilder;
 import poc.adapter.GatlingAdaptationService;
 import poc.config.FileConfig;
 import poc.simulation.DqSimulation;
+import scala.collection.mutable.Map;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.logging.Logger;
 
 public class GatlingMain {
@@ -31,6 +34,8 @@ public class GatlingMain {
         GatlingPropertiesBuilder props = new GatlingPropertiesBuilder()
                 .simulationClass(DqSimulation.class.getName());
 
+        // TODO fix
+        //Since this is static, but the config will be generated during runtime, an exception is thrown
         Gatling.fromMap(props.build());
     }
 }

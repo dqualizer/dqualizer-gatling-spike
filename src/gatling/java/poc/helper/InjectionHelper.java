@@ -16,8 +16,12 @@ import java.util.logging.Logger;
 
 public class InjectionHelper {
 
-    private final String configPath = FileConfig.getGatlingConfigPath();
-    private final Config stimulus = ConfigFactory.load(configPath).getConfig("stimulus");
+    private final Config stimulus;
+
+    public InjectionHelper() {
+        String configPath = FileConfig.getGatlingConfigPath();
+        this.stimulus = ConfigFactory.load(configPath).getConfig("stimulus");
+    }
 
     public PopulationBuilder getPopulationBuilder(ScenarioBuilder scenario) {
         String workload = stimulus.getString("workload");

@@ -5,7 +5,7 @@
       "max": 3
     }
   },
-  "technical": {
+  "technical_constants": {
     "warm_up_duration": 20,
     "cool_down_duration": 10,
     "think_time": 5

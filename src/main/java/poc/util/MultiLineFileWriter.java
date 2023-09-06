@@ -15,8 +15,7 @@ public class MultiLineFileWriter {
             logger.warning("WRITING FAILED - EMPTY STRING");
             return;
         }
-        //TODO Change file
-        File file = new File("C:\\Users\\esa\\Desktop\\Zeug\\Code\\mycode\\dqualizer-gatling-spike\\src\\gatling\\resources\\poc\\gatling-test.conf");
+        File file = new File(filePath);
         if(!file.exists()) file.createNewFile();
         FileWriter writer = new FileWriter(file);
 

@@ -2,7 +2,8 @@ package poc.config;
 
 public class FileConfig {
 
-    private static final String gatlingConfigName = "dq-gatling.conf";
+    private static final String gatlingConfigPath = "poc/dq-gatling.conf";
+    private static final String constantsPath = "constant/constants.json";
 
     private static String getResourcePath() {
         String resourceClassPath = FileConfig.class.getClassLoader()
@@ -15,14 +16,10 @@ public class FileConfig {
     }
 
     public static String getGatlingConfigPath() {
-        // TODO This is not working... Even though the file is found, the config is missing
-        //return getResourcePath() + "poc/gatling-simple.conf";
-
-        return "poc/gatling-simple.conf";
-        //return getResourcePath() + gatlingConfigName;
+        return getResourcePath() + gatlingConfigPath;
     }
 
     public static String getConstantsPath() {
-        return getResourcePath() + "constant/constants.json";
+        return getResourcePath() + constantsPath;
     }
 }

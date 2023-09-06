@@ -1,6 +1,6 @@
 package poc.adapter;
 
-import poc.dqlang.constants.Technical;
+import poc.dqlang.constants.TechnicalConstants;
 import poc.util.ConstantsLoader;
 
 public class TechnicalAdapter {
@@ -9,12 +9,12 @@ public class TechnicalAdapter {
 
     public String adapt() {
         StringBuilder builder = new StringBuilder();
-        builder.append("technical {" + newLine);
+        builder.append("technicalConstants {" + newLine);
 
-        Technical technical = ConstantsLoader.load().getTechnical();
-        int warmUpDuration = technical.getWarmUpDuration();
-        int coolDownDuration = technical.getCoolDownDuration();
-        int thinkTime = technical.getThinkTime();
+        TechnicalConstants technicalConstants = ConstantsLoader.load().getTechnicalConstants();
+        int warmUpDuration = technicalConstants.getWarmUpDuration();
+        int coolDownDuration = technicalConstants.getCoolDownDuration();
+        int thinkTime = technicalConstants.getThinkTime();
 
         builder.append("warmUpDuration = " + warmUpDuration + newLine);
         builder.append("coolDownDuration = " + coolDownDuration + newLine);

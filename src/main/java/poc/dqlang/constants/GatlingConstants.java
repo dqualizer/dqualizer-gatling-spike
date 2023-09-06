@@ -14,7 +14,8 @@ import poc.dqlang.constants.accuracy.Accuracy;
 public class GatlingConstants {
 
     private Accuracy accuracy;
-    private Technical technical;
+    @JsonProperty("technical_constants")
+    private TechnicalConstants technicalConstants;
     private Symbolics symbolics;
     @JsonProperty("response_time")
     private ResponseTime responseTime;

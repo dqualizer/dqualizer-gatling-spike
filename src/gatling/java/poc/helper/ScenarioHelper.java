@@ -19,9 +19,14 @@ import java.util.Map;
 
 public class ScenarioHelper {
 
-    private final String configPath = FileConfig.getGatlingConfigPath();
-    private final Config scenario = ConfigFactory.load(configPath).getConfig("scenario");
-    private final Config params = scenario.getConfig("params");
+    private final Config scenario;
+    private final Config params;
+
+    public ScenarioHelper() {
+        String configPath = FileConfig.getGatlingConfigPath();
+        this.scenario = ConfigFactory.load(configPath).getConfig("scenario");
+        this.params = scenario.getConfig("params");
+    }
 
     public ScenarioBuilder getScenarioBuilder() {
         String name = scenario.getString("name");
@@ -105,6 +110,7 @@ public class ScenarioHelper {
     }
 
     private int getThinkTime() {
+        String configPath = FileConfig.getGatlingConfigPath();
         Config technicalConfig = ConfigFactory.load(configPath).getConfig("technical");
         int thinkTime = technicalConfig.getInt("thinkTime");
         return thinkTime;

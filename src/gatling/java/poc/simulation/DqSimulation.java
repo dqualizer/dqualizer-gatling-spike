@@ -18,11 +18,18 @@ public class DqSimulation extends Simulation {
     private final String configPath = FileConfig.getGatlingConfigPath();
     private final Config config = ConfigFactory.load(configPath);
 
-    private final ScenarioHelper scenarioHelper = new ScenarioHelper();
-    private final InjectionHelper injectionHelper = new InjectionHelper();
-    private final HttpProtocolHelper httpProtocolHelper = new HttpProtocolHelper();
+    private ScenarioHelper scenarioHelper;
+    private InjectionHelper injectionHelper;
+    private HttpProtocolHelper httpProtocolHelper;
+
+    private void initializeHelpers() {
+        this.scenarioHelper = new ScenarioHelper();
+        this.injectionHelper = new InjectionHelper();
+        this.httpProtocolHelper = new HttpProtocolHelper();
+    }
 
     private PopulationBuilder createPopulationBuilder() {
+        this.initializeHelpers();
         ScenarioBuilder scenario = scenarioHelper.getScenarioBuilder();
         PopulationBuilder population = injectionHelper.getPopulationBuilder(scenario);
         return population;
