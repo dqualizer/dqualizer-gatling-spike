@@ -39,8 +39,8 @@ public class GatlingAdapter {
         LoadTest loadTest = loadTests.iterator().next();
         String stimulusConfig = stimulusAdapter.adapt(loadTest);
         configString.add(stimulusConfig);
-        //String endpointConfig = endpointAdapter.adapt(loadTest);
-        //configString.add(endpointConfig);
+        String endpointConfig = endpointAdapter.adapt(loadTest);
+        configString.add(endpointConfig);
 
         return configString;
     }

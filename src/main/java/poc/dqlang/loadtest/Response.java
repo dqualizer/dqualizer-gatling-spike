@@ -13,6 +13,6 @@ import lombok.ToString;
 public class Response {
 
     @JsonProperty("expected_code")
-    private int expectedCode;
+    private Integer expectedCode;
     private String type;
 }

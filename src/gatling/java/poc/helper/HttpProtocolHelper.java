@@ -23,7 +23,7 @@ public class HttpProtocolHelper {
     @SuppressWarnings("unchecked")
     public HttpProtocolBuilder createProtocolBuilder() {
         String baseURL = config.getString("baseURL");
-        String requestParamsPath = config.getString("scenario.requestParams");
+        String requestParamsPath = config.getString("scenario.params.requestParams");
         Map<String,Object> requestParams = jsonFile(requestParamsPath).readRecords().get(0);
 
         Map2<?,?> headersAsScala = (scala.collection.immutable.Map.Map2<?,?>) requestParams.get("headers");

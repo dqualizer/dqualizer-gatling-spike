@@ -22,7 +22,7 @@
         "medium": 20.0,
         "high": 30.0
       },
-      "time_unit": "MINUTES"
+      "time_unit": "SECONDS"
     },
     "duration": {
       "integer": {

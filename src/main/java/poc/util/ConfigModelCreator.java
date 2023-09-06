@@ -54,10 +54,10 @@ public class ConfigModelCreator {
     private static Endpoint createEndpointModel() {
         String field = "/api/users/{id}";
         String operation = "POST";
-        Map<String, String> pathVariables = Map.of("paths", "loadtest/paths.json");
-        Map<String, String> urlParameter = Map.of("query", "loadtest/queryParams.json");
-        Map<String, String> requestParameter = Map.of("headers", "loadtest/headers.json");
-        Map<String, String> payload = Map.of("users", "loadtest/payload.json");
+        String pathVariables = "loadtest/paths.json";
+        String urlParameter = "loadtest/queryParams.json";
+        String requestParameter = "loadtest/headers.json";
+        String payload = "loadtest/payload.json";
         LinkedHashSet<Response> responses = new LinkedHashSet<>();
         Response response = new Response(201, null);
         responses.add(response);

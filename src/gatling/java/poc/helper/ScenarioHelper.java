@@ -21,6 +21,7 @@ public class ScenarioHelper {
 
     private final String configPath = FileConfig.getGatlingConfigPath();
     private final Config scenario = ConfigFactory.load(configPath).getConfig("scenario");
+    private final Config params = scenario.getConfig("params");
 
     public ScenarioBuilder getScenarioBuilder() {
         String name = scenario.getString("name");
@@ -28,11 +29,11 @@ public class ScenarioHelper {
         String path = scenario.getString("request.path");
         ScenarioBuilder scenarioBuilder = scenario(name);
 
-        if(scenario.hasPath("payload")) {
+        if(params.hasPath("payload")) {
             FeederBuilder<?> feeder = this.getFeederBuilder("payload").random();
             scenarioBuilder = scenarioBuilder.feed(feeder);
         }
-        if(scenario.hasPath("pathVariables")) {
+        if(params.hasPath("pathVariables")) {
             FeederBuilder<?> feeder = this.getFeederBuilder("pathVariables").random();
             scenarioBuilder = scenarioBuilder.feed(feeder);
         }
@@ -65,7 +66,7 @@ public class ScenarioHelper {
             }
             default -> throw new UnknownTypeException(method);
         }
-        if (scenario.hasPath("queryParams")) {
+        if (params.hasPath("queryParams")) {
             Map<String, Object> queryParams = this.getQueryParams();
             return actionBuilder.queryParamMap(queryParams);
         }
@@ -74,7 +75,7 @@ public class ScenarioHelper {
 
     // Currently, only json & csv is supported
     private FeederBuilder<?> getFeederBuilder(String feeder) {
-        String payloadPath = scenario.getString(feeder);
+        String payloadPath = params.getString(feeder);
 
         if(payloadPath.endsWith(".json")) return jsonFile(payloadPath);
         else if(payloadPath.endsWith(".json.zip")) return jsonFile(payloadPath).unzip();
@@ -84,7 +85,7 @@ public class ScenarioHelper {
     }
 
     private Map<String, Object> getQueryParams() {
-        String queryParamsPath = scenario.getString("queryParams");
+        String queryParamsPath = params.getString("queryParams");
         List<Map<String,Object>> mapList = jsonFile(queryParamsPath).readRecords();
         // There should be only one object inside the list
         Map<String, Object> queryParams = mapList.get(0);
