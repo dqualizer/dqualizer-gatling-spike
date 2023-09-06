@@ -1,18 +1,18 @@
-package poc.dqlang.constants.symbolics.generic;
+package poc.dqlang.constants.symbolics;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.ToString;
+import poc.dqlang.constants.symbolics.generic.SymbolicLoadType;
 
 import java.util.concurrent.TimeUnit;
 
 @Getter
 @ToString
-public class SymbolicLoad<T> {
+public class SymbolicLoad {
 
-    private T low;
-    private T medium;
-    private T high;
+    private SymbolicLoadType<Integer> integer;
+    private SymbolicLoadType<Double> decimal;
 
     /**
      * TimeUnit for open loads,

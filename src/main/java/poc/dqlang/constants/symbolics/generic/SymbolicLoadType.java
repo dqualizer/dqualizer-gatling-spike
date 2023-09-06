@@ -5,8 +5,9 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class SymbolicType<T> {
+public class SymbolicLoadType<T> {
 
-    private SymbolicLoad<T> load;
-    private SymbolicDuration<T> duration;
+    private T low;
+    private T medium;
+    private T high;
 }

@@ -1,15 +1,16 @@
 package poc.util;
 
 import poc.dqlang.constants.GatlingConstants;
-import poc.dqlang.constants.symbolics.generic.SymbolicDuration;
-import poc.dqlang.constants.symbolics.generic.SymbolicLoad;
+import poc.dqlang.constants.symbolics.SymbolicDuration;
+import poc.dqlang.constants.symbolics.SymbolicLoad;
+import poc.dqlang.constants.symbolics.generic.SymbolicDurationType;
+import poc.dqlang.constants.symbolics.generic.SymbolicLoadType;
 import poc.dqlang.loadtest.stimulus.symbolic.SymbolicDoubleValue;
 import poc.dqlang.loadtest.stimulus.symbolic.SymbolicIntValue;
 import poc.dqlang.loadtest.stimulus.symbolic.SymbolicValue;
 import poc.exception.UnknownTypeException;
 
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 public class SymbolicTransformer {
 
@@ -26,15 +27,23 @@ public class SymbolicTransformer {
         else throw new UnknownTypeException(symbolicValue.getClass().getName());
     }
 
-    public static Number calculateTimeUnit(Number number, String type) {
+    public static Number calculateTimeUnit(Number value, String type) {
         GatlingConstants constants = ConstantsLoader.load();
+        long longValue = value.longValue();
 
         switch (type) {
             case LOAD -> {
-                TimeUnit timeUnit = constants.getSymbolics().getInteger().
+                TimeUnit timeUnit = constants.getSymbolics().getLoad().getTimeUnit();
+                // Since load uses the timeUnit in the denominator (for example user/SECONDS),
+                // the value has to be divided and not multiplied
+                // Since toSeconds() always uses multiplication, the factor is extracted and after that used for division
+                double newValue = timeUnit.toSeconds(longValue);
+                double multiplicationFactor = newValue / longValue;
+                return longValue / multiplicationFactor;
             }
             case DURATION -> {
-
+                TimeUnit timeUnit = constants.getSymbolics().getDuration().getTimeUnit();
+                return timeUnit.toSeconds(longValue);
             }
             default -> throw new UnknownTypeException(type);
         }
@@ -44,8 +53,8 @@ public class SymbolicTransformer {
         GatlingConstants constants = ConstantsLoader.load();
         String name = symbolicIntValue.getName();
 
-        SymbolicLoad<Integer> loadConstants = constants.getSymbolics().getInteger().getLoad();
-        SymbolicDuration<Integer> durationConstants = constants.getSymbolics().getInteger().getDuration();
+        SymbolicLoadType<Integer> loadConstants = constants.getSymbolics().getLoad().getInteger();
+        SymbolicDurationType<Integer> durationConstants = constants.getSymbolics().getDuration().getInteger();
 
         switch (name) {
             case "LOW" -> {
@@ -74,8 +83,8 @@ public class SymbolicTransformer {
         GatlingConstants constants = ConstantsLoader.load();
         String name = symbolicDoubleValue.getName();
 
-        SymbolicLoad<Double> loadConstants = constants.getSymbolics().getDecimal().getLoad();
-        SymbolicDuration<Double> durationConstants = constants.getSymbolics().getDecimal().getDuration();
+        SymbolicLoadType<Double> loadConstants = constants.getSymbolics().getLoad().getDecimal();
+        SymbolicDurationType<Double> durationConstants = constants.getSymbolics().getDuration().getDecimal();
 
         switch (name) {
             case "LOW" -> {
