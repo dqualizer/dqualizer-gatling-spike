@@ -2,7 +2,7 @@ package poc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import poc.dqlang.LoadTestConfig;
+import poc.dqlang.loadtest.LoadTestConfig;
 
 import java.io.File;
 import java.io.IOException;

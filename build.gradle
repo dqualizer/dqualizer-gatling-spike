@@ -7,11 +7,25 @@ plugins {
 
 
 gatling {
-  // WARNING: options below only work when logback config file isn't provided
-  logLevel = 'WARN' // logback root level
-  logHttp = 'NONE' // set to 'ALL' for all HTTP traffic in TRACE, 'FAILURES' for failed HTTP traffic in DEBUG
+    // WARNING: options below only work when logback config file isn't provided
+    logLevel = 'WARN' // logback root level
+    logHttp
 }
 
+bootJar {
+    enabled = false
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/gatling/java'
+        }
+        resources {
+            srcDir 'src/gatling/resources'
+        }
+    }
+}
 
 dependencies{
     implementation 'org.scala-lang:scala-library:2.13.11'
@@ -24,7 +38,9 @@ dependencies{
     gatling 'org.json:json:20230618'
 
     compileOnly 'org.projectlombok:lombok:1.18.28'
-
+    implementation 'org.projectlombok:lombok:1.18.28'
+    annotationProcessor 'org.projectlombok:lombok:1.18.28'
+    gatling 'org.projectlombok:lombok:1.18.28'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
 }
 

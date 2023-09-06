@@ -15,6 +15,15 @@ public class ClosedInjection implements Injectable {
     private final String configPath = FileConfig.getGatlingConfigPath();
     private final Config injection = ConfigFactory.load(configPath).getConfig("stimulus.injectClosed");
 
+    private final int warmUpDuration;
+    private final int coolDownDuration;
+
+    public ClosedInjection() {
+        Config technicalConfig = ConfigFactory.load(configPath).getConfig("technical");
+        this.warmUpDuration = technicalConfig.getInt("warmUpDuration");
+        this.coolDownDuration = technicalConfig.getInt("coolDownDuration");
+    }
+
     @Override
     public PopulationBuilder createLoadIncreaseInjection(ScenarioBuilder scenarioBuilder) {
         Config increaseConfig = injection.getConfig("increase");

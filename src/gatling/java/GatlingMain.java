@@ -11,9 +11,9 @@ public class GatlingMain {
 
     private static final Logger logger = Logger.getLogger(GatlingMain.class.getName());
     private static final GatlingAdaptationService adaptationService = new GatlingAdaptationService();
+    private static final String gatlingConfigPath = FileConfig.getGatlingConfigPath();
 
     public static void main(String[] args) {
-        String gatlingConfigPath = FileConfig.getGatlingConfigPath();
         logger.info("PATH FOR GATLING CONFIGURATION: " + gatlingConfigPath);
 
         try {
@@ -27,13 +27,10 @@ public class GatlingMain {
         runGatling();
     }
 
-
     private static void runGatling() {
         GatlingPropertiesBuilder props = new GatlingPropertiesBuilder()
                 .simulationClass(DqSimulation.class.getName());
 
         Gatling.fromMap(props.build());
     }
-
-
 }

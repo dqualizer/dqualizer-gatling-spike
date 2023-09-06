@@ -12,7 +12,17 @@ import static io.gatling.javaapi.core.CoreDsl.*;
 public class OpenInjection implements Injectable {
 
     private final String configPath = FileConfig.getGatlingConfigPath();
-    private final Config injection = ConfigFactory.load(configPath).getConfig("stimulus.injectOpen");
+    private final Config stimulus = ConfigFactory.load(configPath).getConfig("stimulus");
+    private final Config injection = stimulus.getConfig("injectOpen");
+
+    private final int warmUpDuration;
+    private final int coolDownDuration;
+
+    public OpenInjection() {
+        Config technicalConfig = ConfigFactory.load(configPath).getConfig("technical");
+        this.warmUpDuration = technicalConfig.getInt("warmUpDuration");
+        this.coolDownDuration = technicalConfig.getInt("coolDownDuration");
+    }
 
     @Override
     public PopulationBuilder createLoadIncreaseInjection(ScenarioBuilder scenarioBuilder) {

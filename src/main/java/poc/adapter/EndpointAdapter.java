@@ -1,8 +1,10 @@
 package poc.adapter;
 
+import poc.dqlang.loadtest.LoadTest;
+
 public class EndpointAdapter {
 
-    public String adapt() {
+    public String adapt(LoadTest loadTest) {
         return null;
     }
 }

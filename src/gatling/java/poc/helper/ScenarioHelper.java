@@ -2,7 +2,6 @@ package poc.helper;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import io.gatling.core.feeder.FeederBuilderBase;
 import io.gatling.javaapi.core.ChainBuilder;
 import io.gatling.javaapi.core.CheckBuilder;
 import io.gatling.javaapi.core.FeederBuilder;
@@ -10,7 +9,6 @@ import io.gatling.javaapi.core.ScenarioBuilder;
 import io.gatling.javaapi.http.HttpRequestActionBuilder;
 import poc.config.FileConfig;
 import poc.exception.UnknownTypeException;
-import poc.util.MapUtil;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.http;
@@ -18,11 +16,9 @@ import static io.gatling.javaapi.http.HttpDsl.status;
 
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 public class ScenarioHelper {
 
-    private final Logger logger = Logger.getLogger(ScenarioHelper.class.getName());
     private final String configPath = FileConfig.getGatlingConfigPath();
     private final Config scenario = ConfigFactory.load(configPath).getConfig("scenario");
 
@@ -45,7 +41,9 @@ public class ScenarioHelper {
         ChainBuilder requestChain = exec(actionBuilder);
         int repetition = scenario.getInt("repetition");
 
-        return scenarioBuilder.repeat(repetition).on(exec(requestChain));
+        int thinkTime = this.getThinkTime();
+
+        return scenarioBuilder.repeat(repetition).on(exec(requestChain).pause(thinkTime));
     }
 
     private HttpRequestActionBuilder getActionBuilder(String method, String path) {
@@ -103,5 +101,11 @@ public class ScenarioHelper {
 
         // Default check
         return status().exists();
+    }
+
+    private int getThinkTime() {
+        Config technicalConfig = ConfigFactory.load(configPath).getConfig("technical");
+        int thinkTime = technicalConfig.getInt("thinkTime");
+        return thinkTime;
     }
 }

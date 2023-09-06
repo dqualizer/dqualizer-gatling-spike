@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 
 public class InjectionHelper {
 
-    private final Logger logger = Logger.getLogger(InjectionHelper.class.getName());
     private final String configPath = FileConfig.getGatlingConfigPath();
     private final Config stimulus = ConfigFactory.load(configPath).getConfig("stimulus");
 
