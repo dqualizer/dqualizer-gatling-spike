@@ -7,10 +7,14 @@ import io.gatling.javaapi.core.PopulationBuilder;
 import io.gatling.javaapi.core.ScenarioBuilder;
 import poc.config.FileConfig;
 
+import java.util.logging.Logger;
+
 import static io.gatling.javaapi.core.CoreDsl.*;
 
 //TODO Lastkurven sehen noch ganz fragwürdig aus
 public class ClosedInjection implements Injectable {
+    private final Logger logger = Logger.getLogger(ClosedInjection.class.getName());
+    private final String newLine = System.lineSeparator();
 
     private final String configPath = FileConfig.getLocalGatlingConfigPath();
     private final Config injection = ConfigFactory.load(configPath).getConfig("stimulus.injectClosed");
@@ -32,6 +36,13 @@ public class ClosedInjection implements Injectable {
         int timeToHighestLoad = increaseConfig.getInt("timeToHighestLoad");
         int constantDuration = increaseConfig.getInt("constantDuration");
 
+        logger.info("Running CLOSED LOAD INCREASE with" + newLine +
+                "\t BASE LOAD : " + baseLoad + " users" + newLine +
+                "\t HIGHEST LOAD: " + highestLoad + " users" + newLine +
+                "\t TIME TO HIGHEST LOAD: " + timeToHighestLoad + " seconds" + newLine +
+                "\t CONSTANT DURATION: " + constantDuration + " seconds"
+        );
+
         return scenarioBuilder.injectClosed(
                 rampConcurrentUsers(0).to(baseLoad).during(warmUpDuration),
                 rampConcurrentUsers(baseLoad).to(highestLoad).during(timeToHighestLoad),
@@ -47,6 +58,11 @@ public class ClosedInjection implements Injectable {
         int peakLoad = increaseConfig.getInt("peakLoad");
         int duration = increaseConfig.getInt("duration");
 
+        logger.info("Running CLOSED LOAD PEAK with" + newLine +
+                "\t BASE LOAD : " + baseLoad + " users" + newLine +
+                "\t PEAK LOAD: " + peakLoad + " users" + newLine +
+                "\t DURATION: " + duration + " seconds"
+        );
 
         return scenarioBuilder.injectClosed(
                 rampConcurrentUsers(0).to(baseLoad).during(warmUpDuration),
@@ -61,6 +77,12 @@ public class ClosedInjection implements Injectable {
         int baseLoad = increaseConfig.getInt("baseLoad");
         int targetLoad = increaseConfig.getInt("targetLoad");
         int duration = increaseConfig.getInt("duration");
+
+        logger.info("Running CLOSED CONSTANT LOAD with" + newLine +
+                "\t BASE LOAD : " + baseLoad + " users" + newLine +
+                "\t TARGET LOAD: " + targetLoad + " users" + newLine +
+                "\t DURATION: " + duration + " seconds"
+        );
 
         return scenarioBuilder.injectClosed(
                 constantConcurrentUsers(baseLoad).during(warmUpDuration),

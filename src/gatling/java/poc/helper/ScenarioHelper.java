@@ -9,6 +9,7 @@ import io.gatling.javaapi.core.ScenarioBuilder;
 import io.gatling.javaapi.http.HttpRequestActionBuilder;
 import poc.config.FileConfig;
 import poc.exception.UnknownTypeException;
+import poc.injector.ClosedInjection;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.http;
@@ -16,8 +17,10 @@ import static io.gatling.javaapi.http.HttpDsl.status;
 
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class ScenarioHelper {
+    private final Logger logger = Logger.getLogger(ScenarioHelper.class.getName());
 
     private final Config scenario;
     private final Config params;
@@ -46,8 +49,10 @@ public class ScenarioHelper {
         HttpRequestActionBuilder actionBuilder = this.getActionBuilder(method, path);
         ChainBuilder requestChain = exec(actionBuilder);
         int repetition = scenario.getInt("repetition");
-
         int thinkTime = this.getThinkTime();
+
+        logger.info("Using REPETITION: " + repetition);
+        logger.info("Using THINKTIME: " + thinkTime);
 
         return scenarioBuilder.repeat(repetition).on(exec(requestChain).pause(thinkTime));
     }
@@ -80,17 +85,20 @@ public class ScenarioHelper {
 
     // Currently, only json & csv is supported
     private FeederBuilder<?> getFeederBuilder(String feeder) {
-        String payloadPath = params.getString(feeder);
+        String feederPath = params.getString(feeder);
+        logger.info("Using FEEDER: " + feederPath);
 
-        if(payloadPath.endsWith(".json")) return jsonFile(payloadPath);
-        else if(payloadPath.endsWith(".json.zip")) return jsonFile(payloadPath).unzip();
-        else if(payloadPath.endsWith(".csv")) return csv(payloadPath);
-        else if(payloadPath.endsWith(".csv.zip")) return csv(payloadPath).unzip();
-        else throw new UnknownTypeException(payloadPath);
+        if(feederPath.endsWith(".json")) return jsonFile(feederPath);
+        else if(feederPath.endsWith(".json.zip")) return jsonFile(feederPath).unzip();
+        else if(feederPath.endsWith(".csv")) return csv(feederPath);
+        else if(feederPath.endsWith(".csv.zip")) return csv(feederPath).unzip();
+        else throw new UnknownTypeException(feederPath);
     }
 
     private Map<String, Object> getQueryParams() {
         String queryParamsPath = params.getString("queryParams");
+        logger.info("Using QUERYPARAMS: " + queryParamsPath);
+
         List<Map<String,Object>> mapList = jsonFile(queryParamsPath).readRecords();
         // There should be only one object inside the list
         Map<String, Object> queryParams = mapList.get(0);
@@ -113,6 +121,7 @@ public class ScenarioHelper {
         String configPath = FileConfig.getLocalGatlingConfigPath();
         Config technicalConfig = ConfigFactory.load(configPath).getConfig("technicalConstants");
         int thinkTime = technicalConfig.getInt("thinkTime");
+
         return thinkTime;
     }
 }

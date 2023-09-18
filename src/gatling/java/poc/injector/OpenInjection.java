@@ -13,9 +13,9 @@ import java.util.logging.Logger;
 import static io.gatling.javaapi.core.CoreDsl.*;
 
 public class OpenInjection implements Injectable {
-
     private final Logger logger = Logger.getLogger(OpenInjection.class.getName());
     private final String newLine = System.lineSeparator();
+
     private final String configPath = FileConfig.getLocalGatlingConfigPath();
     private final Config stimulus = ConfigFactory.load(configPath).getConfig("stimulus");
     private final Config injection = stimulus.getConfig("injectOpen");
@@ -38,10 +38,10 @@ public class OpenInjection implements Injectable {
         int constantDuration = increaseConfig.getInt("constantDuration");
 
         logger.info("Running OPEN LOAD INCREASE with" + newLine +
-                        "\t BASELOAD : " + baseLoad + " users" + newLine +
+                        "\t BASE LOAD : " + baseLoad + " users" + newLine +
                         "\t HIGHEST LOAD: " + highestLoad + " users" + newLine +
                         "\t TIME TO HIGHEST LOAD: " + timeToHighestLoad + " seconds" + newLine +
-                        "\t CONSTANT DURATION: " + constantDuration+ " seconds" + newLine
+                        "\t CONSTANT DURATION: " + constantDuration + " seconds"
         );
 
         return scenarioBuilder.injectOpen(
@@ -59,6 +59,12 @@ public class OpenInjection implements Injectable {
         int peakLoad = increaseConfig.getInt("peakLoad");
         int duration = increaseConfig.getInt("duration");
 
+        logger.info("Running OPEN LOAD PEAK with" + newLine +
+                "\t BASE LOAD : " + baseLoad + " users" + newLine +
+                "\t PEAK LOAD: " + peakLoad + " users" + newLine +
+                "\t DURATION: " + duration + " seconds"
+        );
+
         //TODO Lastkurve sieht noch fragwürdig aus
         return scenarioBuilder.injectOpen(
                 rampUsersPerSec(0).to(baseLoad).during(warmUpDuration),
@@ -73,6 +79,12 @@ public class OpenInjection implements Injectable {
         int baseLoad = increaseConfig.getInt("baseLoad");
         double targetLoad = increaseConfig.getDouble("targetLoad");
         int duration = increaseConfig.getInt("duration");
+
+        logger.info("Running OPEN CONSTANT LOAD with" + newLine +
+                "\t BASE LOAD : " + baseLoad + " users" + newLine +
+                "\t TARGET LOAD: " + targetLoad + " users" + newLine +
+                "\t DURATION: " + duration + " seconds"
+        );
 
         return scenarioBuilder.injectOpen(
                 rampUsersPerSec(0).to(baseLoad).during(warmUpDuration),
