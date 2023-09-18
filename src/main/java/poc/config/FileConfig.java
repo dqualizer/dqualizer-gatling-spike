@@ -15,8 +15,12 @@ public class FileConfig {
         return resourcePath;
     }
 
-    public static String getGatlingConfigPath() {
-        return getResourcePath() + gatlingConfigPath;
+    public static String getAbsoluteGatlingConfigPath() {
+        return System.getProperty("user.dir") + "/src/gatling/resources/" + gatlingConfigPath;
+    }
+
+    public static String getLocalGatlingConfigPath() {
+        return gatlingConfigPath;
     }
 
     public static String getConstantsPath() {

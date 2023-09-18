@@ -15,11 +15,10 @@ import poc.injector.OpenInjection;
 import java.util.logging.Logger;
 
 public class InjectionHelper {
-
     private final Config stimulus;
 
     public InjectionHelper() {
-        String configPath = FileConfig.getGatlingConfigPath();
+        String configPath = FileConfig.getLocalGatlingConfigPath();
         this.stimulus = ConfigFactory.load(configPath).getConfig("stimulus");
     }
 

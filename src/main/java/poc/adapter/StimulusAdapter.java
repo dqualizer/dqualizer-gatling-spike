@@ -69,10 +69,12 @@ public class StimulusAdapter {
              Number adaptedTimeToHighestLoad = SymbolicTransformer.calculateTimeUnit(timeToHighestLoad, SymbolicTransformer.DURATION);
              Number adaptedConstantDuration = SymbolicTransformer.calculateTimeUnit(constantDuration, SymbolicTransformer.DURATION);
 
+             profileBuilder.append("increase {" + newLine);
              profileBuilder.append("baseLoad = " + adaptedBaseLoad + newLine);
              profileBuilder.append("highestLoad = " + adaptedHighestLoad + newLine);
              profileBuilder.append("timeToHighestLoad = " + adaptedTimeToHighestLoad + newLine);
              profileBuilder.append("constantDuration = " + adaptedConstantDuration + newLine);
+             profileBuilder.append("}" + newLine);
          }
          else if(loadProfile instanceof LoadPeak loadPeak) {
              selectProfile = "profile = peak" + newLine;
@@ -84,9 +86,11 @@ public class StimulusAdapter {
              Number adaptedPeakLoad = SymbolicTransformer.calculateTimeUnit(peakLoad, SymbolicTransformer.LOAD);
              Number adaptedDuration = SymbolicTransformer.calculateTimeUnit(duration, SymbolicTransformer.DURATION);
 
+             profileBuilder.append("peak {" + newLine);
              profileBuilder.append("baseLoad = " + adaptedBaseLoad + newLine);
              profileBuilder.append("peakLoad = " + adaptedPeakLoad + newLine);
              profileBuilder.append("duration = " + adaptedDuration + newLine);
+             profileBuilder.append("}" + newLine);
          }
          else if(loadProfile instanceof ConstantLoad constantLoad) {
              selectProfile = "profile = constant" + newLine;
@@ -98,9 +102,11 @@ public class StimulusAdapter {
              Number adaptedTargetLoad = SymbolicTransformer.calculateTimeUnit(targetLoad, SymbolicTransformer.LOAD);
              Number adaptedDuration = SymbolicTransformer.calculateTimeUnit(duration, SymbolicTransformer.DURATION);
 
+             profileBuilder.append("constant {" + newLine);
              profileBuilder.append("baseLoad = " + adaptedBaseLoad + newLine);
              profileBuilder.append("peakLoad = " + adaptedTargetLoad + newLine);
              profileBuilder.append("duration = " + adaptedDuration + newLine);
+             profileBuilder.append("}" + newLine);
          }
          else throw new UnknownTypeException(loadProfile.getClass().getName());
 
@@ -124,10 +130,12 @@ public class StimulusAdapter {
             Number timeToHighestLoad  = SymbolicTransformer.calculateValue(loadIncrease.getTimeToHighestLoad());
             Number constantDuration  = SymbolicTransformer.calculateValue(loadIncrease.getConstantDuration());
 
+            profileBuilder.append("increase {" + newLine);
             profileBuilder.append("baseLoad = " + baseLoad + newLine);
             profileBuilder.append("highestLoad = " + highestLoad + newLine);
             profileBuilder.append("timeToHighestLoad = " + timeToHighestLoad + newLine);
             profileBuilder.append("constantDuration = " + constantDuration + newLine);
+            profileBuilder.append("}" + newLine);
         }
         else if(loadProfile instanceof LoadPeak loadPeak){
             selectProfile = "profile = peak" + newLine;
@@ -135,9 +143,11 @@ public class StimulusAdapter {
             Number peakLoad = SymbolicTransformer.calculateValue(loadPeak.getPeakLoad());
             Number duration  = SymbolicTransformer.calculateValue(loadPeak.getDuration());
 
+            profileBuilder.append("peak {" + newLine);
             profileBuilder.append("baseLoad = " + baseLoad + newLine);
             profileBuilder.append("peakLoad = " + peakLoad + newLine);
             profileBuilder.append("duration = " + duration + newLine);
+            profileBuilder.append("}" + newLine);
         }
         else if(loadProfile instanceof ConstantLoad constantLoad) {
             selectProfile = "profile = constant" + newLine;
@@ -145,9 +155,11 @@ public class StimulusAdapter {
             Number targetLoad = SymbolicTransformer.calculateValue(constantLoad.getTargetLoad());
             Number duration  = SymbolicTransformer.calculateValue(constantLoad.getDuration());
 
+            profileBuilder.append("constant {" + newLine);
             profileBuilder.append("baseLoad = " + baseLoad + newLine);
             profileBuilder.append("targetLoad = " + targetLoad + newLine);
             profileBuilder.append("duration = " + duration + newLine);
+            profileBuilder.append("}" + newLine);
         }
         else throw new UnknownTypeException(loadProfile.getClass().getName());
         profileBuilder.append("}" + newLine);

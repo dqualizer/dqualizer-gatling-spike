@@ -17,7 +17,7 @@ import static io.gatling.javaapi.http.HttpDsl.http;
 public class HttpProtocolHelper {
 
     private final Logger logger = Logger.getLogger(DqSimulation.class.getName());
-    private final String configPath = FileConfig.getGatlingConfigPath();
+    private final String configPath = FileConfig.getLocalGatlingConfigPath();
     private final Config config = ConfigFactory.load(configPath);
 
     @SuppressWarnings("unchecked")
@@ -29,6 +29,7 @@ public class HttpProtocolHelper {
         Map2<?,?> headersAsScala = (scala.collection.immutable.Map.Map2<?,?>) requestParams.get("headers");
         Map<String, String> headersAsJava = (Map<String,String>) CollectionConverters.MapHasAsJava(headersAsScala).asJava();
 
+        logger.info("BASEURL OF SIMULATION: " + baseURL);
         return http.baseUrl(baseURL).headers(headersAsJava);
     }
 }

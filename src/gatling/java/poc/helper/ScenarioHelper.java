@@ -23,7 +23,7 @@ public class ScenarioHelper {
     private final Config params;
 
     public ScenarioHelper() {
-        String configPath = FileConfig.getGatlingConfigPath();
+        String configPath = FileConfig.getLocalGatlingConfigPath();
         this.scenario = ConfigFactory.load(configPath).getConfig("scenario");
         this.params = scenario.getConfig("params");
     }
@@ -110,8 +110,8 @@ public class ScenarioHelper {
     }
 
     private int getThinkTime() {
-        String configPath = FileConfig.getGatlingConfigPath();
-        Config technicalConfig = ConfigFactory.load(configPath).getConfig("technical");
+        String configPath = FileConfig.getLocalGatlingConfigPath();
+        Config technicalConfig = ConfigFactory.load(configPath).getConfig("technicalConstants");
         int thinkTime = technicalConfig.getInt("thinkTime");
         return thinkTime;
     }

@@ -59,8 +59,10 @@ public class ConfigModelCreator {
         String requestParameter = "loadtest/headers.json";
         String payload = "loadtest/payload.json";
         LinkedHashSet<Response> responses = new LinkedHashSet<>();
-        Response response = new Response(201, null);
-        responses.add(response);
+        Response response1 = new Response(200, null);
+        Response response2 = new Response(201, null);
+        responses.add(response1);
+        responses.add(response2);
 
         Endpoint endpoint = new Endpoint(field, operation, pathVariables, urlParameter, requestParameter, payload, responses);
         return endpoint;

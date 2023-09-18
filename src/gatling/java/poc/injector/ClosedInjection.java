@@ -12,14 +12,14 @@ import static io.gatling.javaapi.core.CoreDsl.*;
 //TODO Lastkurven sehen noch ganz fragwürdig aus
 public class ClosedInjection implements Injectable {
 
-    private final String configPath = FileConfig.getGatlingConfigPath();
+    private final String configPath = FileConfig.getLocalGatlingConfigPath();
     private final Config injection = ConfigFactory.load(configPath).getConfig("stimulus.injectClosed");
 
     private final int warmUpDuration;
     private final int coolDownDuration;
 
     public ClosedInjection() {
-        Config technicalConfig = ConfigFactory.load(configPath).getConfig("technical");
+        Config technicalConfig = ConfigFactory.load(configPath).getConfig("technicalConstants");
         this.warmUpDuration = technicalConfig.getInt("warmUpDuration");
         this.coolDownDuration = technicalConfig.getInt("coolDownDuration");
     }

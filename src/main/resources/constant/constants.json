@@ -14,12 +14,12 @@
     "load": {
       "integer": {
         "low": 2,
-        "medium": 20,
+        "medium": 10,
         "high": 30
       },
       "decimal": {
         "low": 2.0,
-        "medium": 20.0,
+        "medium": 10.0,
         "high": 30.0
       },
       "time_unit": "SECONDS"
@@ -35,7 +35,7 @@
         "fast": 20.0,
         "very_fast": 10.0
       },
-      "time_unit": "MINUTES"
+      "time_unit": "SECONDS"
     }
   },
   "response_time": {

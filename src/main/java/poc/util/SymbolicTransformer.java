@@ -1,8 +1,6 @@
 package poc.util;
 
 import poc.dqlang.constants.GatlingConstants;
-import poc.dqlang.constants.symbolics.SymbolicDuration;
-import poc.dqlang.constants.symbolics.SymbolicLoad;
 import poc.dqlang.constants.symbolics.generic.SymbolicDurationType;
 import poc.dqlang.constants.symbolics.generic.SymbolicLoadType;
 import poc.dqlang.loadtest.stimulus.symbolic.SymbolicDoubleValue;

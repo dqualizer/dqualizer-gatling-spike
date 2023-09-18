@@ -6,12 +6,17 @@ import io.gatling.javaapi.core.ChainBuilder;
 import io.gatling.javaapi.core.PopulationBuilder;
 import io.gatling.javaapi.core.ScenarioBuilder;
 import poc.config.FileConfig;
+import poc.simulation.DqSimulation;
+
+import java.util.logging.Logger;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
 
 public class OpenInjection implements Injectable {
 
-    private final String configPath = FileConfig.getGatlingConfigPath();
+    private final Logger logger = Logger.getLogger(OpenInjection.class.getName());
+    private final String newLine = System.lineSeparator();
+    private final String configPath = FileConfig.getLocalGatlingConfigPath();
     private final Config stimulus = ConfigFactory.load(configPath).getConfig("stimulus");
     private final Config injection = stimulus.getConfig("injectOpen");
 
@@ -19,7 +24,7 @@ public class OpenInjection implements Injectable {
     private final int coolDownDuration;
 
     public OpenInjection() {
-        Config technicalConfig = ConfigFactory.load(configPath).getConfig("technical");
+        Config technicalConfig = ConfigFactory.load(configPath).getConfig("technicalConstants");
         this.warmUpDuration = technicalConfig.getInt("warmUpDuration");
         this.coolDownDuration = technicalConfig.getInt("coolDownDuration");
     }
@@ -31,6 +36,13 @@ public class OpenInjection implements Injectable {
         double highestLoad = increaseConfig.getDouble("highestLoad");
         int timeToHighestLoad = increaseConfig.getInt("timeToHighestLoad");
         int constantDuration = increaseConfig.getInt("constantDuration");
+
+        logger.info("Running OPEN LOAD INCREASE with" + newLine +
+                        "\t BASELOAD : " + baseLoad + " users" + newLine +
+                        "\t HIGHEST LOAD: " + highestLoad + " users" + newLine +
+                        "\t TIME TO HIGHEST LOAD: " + timeToHighestLoad + " seconds" + newLine +
+                        "\t CONSTANT DURATION: " + constantDuration+ " seconds" + newLine
+        );
 
         return scenarioBuilder.injectOpen(
                     rampUsersPerSec(0).to(baseLoad).during(warmUpDuration),
