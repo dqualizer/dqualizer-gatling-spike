@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+    id 'io.gatling.gradle' version '3.9.5'
+}
+
+
+gatling {
+    logLevel = 'WARN'
+    logHttp = 'NONE'
+}
+
+//jar {
+//    manifest {
+//        attributes(
+//                'Main-Class': 'poc.RunnerMain'
+//        )
+//    }
+//}
+
+//sourceSets {
+//    main {
+//        java {
+//            srcDir 'src/gatling/java'
+//        }
+//        resources {
+//            srcDir 'src/gatling/resources'
+//        }
+//    }
+//}
+
+dependencies{
+    implementation 'org.scala-lang:scala-library:2.13.11'
+
+    implementation 'com.opencsv:opencsv:3.7'
+    implementation 'org.json:json:20230618'
+
+    implementation 'io.gatling:gatling-core:3.9.5'
+    implementation 'io.gatling.highcharts:gatling-charts-highcharts:3.9.5'
+
+    // Run gradle task from source code
+    implementation 'org.gradle:gradle-tooling-api:7.3-20210825160000+0000'
+    gatling 'org.gradle:gradle-tooling-api:7.3-20210825160000+0000'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
+}
+
+repositories {
+  mavenCentral()
+}
+
+test {
+    useJUnitPlatform()
+}

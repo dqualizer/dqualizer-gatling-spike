@@ -1,0 +1,2 @@
+include 'gatling-adapter'
+include 'gatling-runner'
