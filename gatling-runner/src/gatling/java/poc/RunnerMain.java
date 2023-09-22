@@ -18,6 +18,7 @@ public class RunnerMain {
 
     public static void main(String[] args) {
         logger.info("PATH FOR GATLING CONFIGURATION: " + gatlingConfigPath);
+        logger.info("NOTE THAT THE CONFIGURATION FILE MUST ALREADY EXIST DURING COMPILATION");
         runGatling();
     }
 

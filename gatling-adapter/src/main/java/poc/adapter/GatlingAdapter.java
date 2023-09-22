@@ -1,6 +1,5 @@
 package poc.adapter;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import poc.dqlang.loadtest.LoadTestArtifact;
@@ -14,11 +13,12 @@ import java.util.List;
 public class GatlingAdapter {
 
     @Autowired
+    private TechnicalAdapter technicalAdapter;
+    @Autowired
     private StimulusAdapter stimulusAdapter;
     @Autowired
     private EndpointAdapter endpointAdapter;
-    @Autowired
-    private TechnicalAdapter technicalAdapter;
+
     private final static String newLine = System.lineSeparator();
 
     public List<String> adapt(LoadTestConfiguration loadTestConfig) {
@@ -33,7 +33,7 @@ public class GatlingAdapter {
 
         LinkedHashSet<LoadTestArtifact> loadTests = loadTestConfig.getLoadTests();
         if(loadTests.size() > 1)
-            throw new NotImplementedException("Currently only one loadtest can be executed");
+            throw new UnsupportedOperationException("Currently only one loadtest can be executed");
 
         LoadTestArtifact loadTest = loadTests.iterator().next();
         String stimulusConfig = stimulusAdapter.adapt(loadTest);

@@ -12,13 +12,16 @@
       "description" :"Great",
       "stimulus": {
         "workload": {
-          "unit": "SECONDS",
+          "type": "OPEN",
           "load_profile": {
             "base_load": {
               "name": "LOW"
             },
             "target_load": {
               "name": "HIGH"
+            },
+            "duration": {
+              "name": "FAST"
             }
           }
         },

@@ -4,12 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 
 @Configuration
 @Slf4j
@@ -26,10 +20,18 @@ public class FileConfig {
         return path;
     }
 
-    public static String getAbsoluteGatlingConfigPath() {
+    /**
+     * @return Absolute path, where the gatling config file should be created
+     */
+    public static String getGatlingConfigPath() {
         return getResourcePath(gatlingConfigPath);
     }
 
+    /**
+     * Return the path to the file with defined values for load test constants, like HIGH or SLOW
+     *
+     * @return Absolute path of the constants file
+     */
     public static String getConstantsPath() {
         return getResourcePath(constantsPath);
     }

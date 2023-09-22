@@ -1,17 +1,15 @@
-Gatling plugin for Gradle - Java demo project
+Gatling-Java-POC
 =============================================
 
-A pro.simple showcase of a Gradle project using the Gatling plugin for Gradle. Refer to the plugin documentation
-[on the Gatling website](https://gatling.io/docs/current/extensions/gradle_plugin/) for usage.
+## gatling-adapter
 
-This project is written in Java, others are available for [Kotlin](https://github.com/gatling/gatling-gradle-plugin-demo-kotlin)
-and [Scala](https://github.com/gatling/gatling-gradle-plugin-demo-scala).
+The gatling-adapter should read a RQA-Configuration and adapt it to a dqualizer gatling-configuration.
+The created gatling-configuration will be written into the gatling-runner project.
 
-It includes:
+---
+## gatling-runner
 
-* Gradle Wrapper, so you don't need to install Gradle (a JDK must be installed and $JAVA_HOME configured)
-* minimal `build.gradle` leveraging Gradle wrapper
-* latest version of `io.gatling.gradle` plugin applied
-* sample [Simulation](https://gatling.io/docs/gatling/reference/current/general/concepts/#simulation) class,
-demonstrating sufficient Gatling functionality
-* proper source file layout
+The gatling-runner provides a Simulation template for gatling load tests. To run load tests, a dqualizer gatling-configuration
+has to be provided **before building or running the project**. 
+
+An example for a dqualizer gatling configuration can be found [here](gatling-runner/src/gatling/resources/poc/gatling-example.conf).

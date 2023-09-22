@@ -1,13 +1,14 @@
 plugins {
     id 'java'
     id 'io.gatling.gradle' version '3.9.5'
-    id 'com.github.johnrengelman.shadow' version '8.1.1'    // Plugin to create fatJar with gatling and dependencies
+    // Plugin to create fatJar with gatling and dependencies
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 
 gatling {
     logLevel = 'WARN'
-    logHttp = 'NONE'
+    logHttp = 'ALL'
 }
 
 jar {
@@ -29,19 +30,9 @@ sourceSets {
 }
 
 dependencies{
-    implementation "org.scala-lang:scala-library:2.13.11"
-
     implementation "io.gatling:gatling-app:3.9.5"
     implementation "io.gatling:gatling-core:3.9.5"
     implementation "io.gatling.highcharts:gatling-charts-highcharts:3.9.5"
-
-    implementation "com.opencsv:opencsv:3.7"
-    implementation "org.json:json:20230618"
-
-    // Run gradle task from source code
-    implementation "org.gradle:gradle-tooling-api:7.3-20210825160000+0000"
-
-    testImplementation "org.junit.jupiter:junit-jupiter-api:5.9.3"
 }
 
 repositories {
