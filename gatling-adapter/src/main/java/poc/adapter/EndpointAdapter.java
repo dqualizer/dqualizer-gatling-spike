@@ -79,16 +79,16 @@ public class EndpointAdapter {
         builder.append("params {" + newLine);
 
         String requestParams = endpoint.getRequestParameter();
-        builder.append("requestParams =  \"" + requestParams + "\"" + newLine);
+        builder.append("requestParams = \"" + requestParams + "\"" + newLine);
 
         String payload = endpoint.getPayload();
-        builder.append("payload =  \"" + payload + "\"" + newLine);
+        builder.append("payload = \"" + payload + "\"" + newLine);
 
         String pathVariables = endpoint.getPathVariables();
-        builder.append("pathVariables =  \"" + pathVariables + "\"" + newLine);
+        builder.append("pathVariables = \"" + pathVariables + "\"" + newLine);
 
         String queryParams = endpoint.getUrlParameter();
-        builder.append("queryParams =  \"" + queryParams + "\"" + newLine);
+        builder.append("queryParams = \"" + queryParams + "\"" + newLine);
 
         builder.append("}" + newLine);
         return builder.toString();

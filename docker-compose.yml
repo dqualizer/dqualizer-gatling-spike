@@ -1,49 +1,54 @@
 version: '3.9'
 
 services:
-  influxdb:
-    image: influxdb:latest
-    container_name: "gatling-influx"
-    ports:
-      - "8086:8086"
-    env_file:
-      - ./env/.env
-
-  grafana:
-    image: grafana/grafana:9.1.8
-    container_name: "gatling-grafana"
+  gatling-adapter:
+    container_name: "java-gatling-adapter"
+    build:
+      context: gatling-adapter
+      dockerfile: Dockerfile
     volumes:
-      - ./docker-config/grafana/provisioning:/usr/share/grafana/custom/
-      - ./docker-config/grafana/my-dashboards:/usr/share/grafana/public/dashboards
+      - ./gatling-runner/src/gatling/resources/config:/app/gatling-adapter/src/main/resources/gatling
     ports:
-      - "3030:3000"
-    env_file:
-      - ./env/.env
-    environment:
-      - GF_PANELS_DISABLE_SANITIZE_HTML=TRUE
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_PATHS_PROVISIONING=/usr/share/grafana/custom/
-    depends_on:
-      - influxdb
+      - "8090:8090"
 
-  graphite:
-    image: graphiteapp/graphite-statsd
-    container_name: "gatling-graphite"
-    ports:
-      - "2003:2003"
-      - "2004:2004"
-    depends_on:
-      - telegraf
-
-  telegraf:
-    image: telegraf
-    container_name: "gatling-telegraf"
+  gatling-runner:
+    container_name: "java-gatling-runner"
+    build:
+      context: gatling-runner
+      dockerfile: Dockerfile
     volumes:
-      - ./docker-config/influx/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - ./gatling-runner/src/gatling/resources/config:/app/gatling-runner/src/gatling/resources/config
     ports:
-      - "8125:8125"
-    env_file:
-      - ./env/.env
+      - "8091:8091"
     depends_on:
-      - influxdb
+      gatling-adapter:
+        condition: service_completed_successfully
+
+
+
+#############
+#  influxdb:
+#    image: influxdb:latest
+#    container_name: "gatling-influx"
+#    ports:
+#      - "8086:8086"
+#    env_file:
+#      - ./env/.env
+#
+#  grafana:
+#    image: grafana/grafana:9.1.8
+#    container_name: "gatling-grafana"
+#    volumes:
+#      - ./docker-config/grafana/provisioning:/usr/share/grafana/custom/
+#      - ./docker-config/grafana/my-dashboards:/usr/share/grafana/public/dashboards
+#    ports:
+#      - "3030:3000"
+#    env_file:
+#      - ./env/.env
+#    environment:
+#      - GF_PANELS_DISABLE_SANITIZE_HTML=TRUE
+#      - GF_SECURITY_ADMIN_PASSWORD=admin
+#      - GF_PATHS_PROVISIONING=/usr/share/grafana/custom/
+#    depends_on:
+#      - influxdb
 
