@@ -1,4 +1,4 @@
-name: Build gatling-adapter
+name: Test gatling-runner
 
 on:
   push:
@@ -22,4 +22,4 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Gradle Build
-        run: ./gradlew :gatling-adapter:assemble
+        run: ./gradlew :gatling-runner:shadowJar
