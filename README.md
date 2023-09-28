@@ -13,3 +13,5 @@ The gatling-runner provides a Simulation template for gatling load tests. To run
 has to be provided **before building or running the project**. 
 
 An example for a dqualizer gatling configuration can be found [here](gatling-runner/src/gatling/resources/poc/gatling-example.conf).
+
+Gatling HTML-reports will be stored in the folder [gatling-runner/results](gatling-runner/results).

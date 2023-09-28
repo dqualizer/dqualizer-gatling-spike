@@ -10,6 +10,8 @@ services:
       - ./gatling-runner/src/gatling/resources/config:/app/gatling-adapter/src/main/resources/gatling
     ports:
       - "8090:8090"
+    environment:
+      - GATLING_CONFIG_PROJECT=gatling-adapter
 
   gatling-runner:
     container_name: "java-gatling-runner"

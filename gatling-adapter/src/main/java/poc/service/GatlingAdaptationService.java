@@ -20,6 +20,8 @@ public class GatlingAdaptationService {
 
     @Autowired
     private GatlingAdapter adapter;
+    @Autowired
+    private FileConfig fileConfig;
 
     @EventListener(ApplicationReadyEvent.class)
     public void start()  {
@@ -38,7 +40,7 @@ public class GatlingAdaptationService {
         List<String> gatlingConfig = adapter.adapt(configModel);
         log.info("LOAD TEST CONFIG WAS ADAPTED");
 
-        String configPath = FileConfig.getGatlingConfigPath();
+        String configPath = fileConfig.getGatlingConfigPath();
         log.info("GATLING CONFIG WILL BE WRITTEN HERE: " + configPath);
         MultiLineFileWriter.write(gatlingConfig, configPath);
         log.info("GATLING CONFIG WAS WRITTEN SUCCESSFULLY");
