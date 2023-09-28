@@ -5,13 +5,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import poc.dqlang.loadtest.stimulus.symbolic.SymbolicValue;
 
 @Getter
 @ToString
-@AllArgsConstructor
+@SuperBuilder
 @NoArgsConstructor
 public class LoadIncrease extends LoadProfile {
+
+    /**
+     * Type identifier for JSON serialization.
+     */
+    public static final String TYPE_IDENTIFIER = "increase";
 
     @JsonProperty("highest_load")
     private SymbolicValue highestLoad;
@@ -21,11 +27,4 @@ public class LoadIncrease extends LoadProfile {
 
     @JsonProperty("constant_duration")
     private SymbolicValue constantDuration;
-
-    public LoadIncrease(SymbolicValue baseLoad, SymbolicValue highestLoad, SymbolicValue timeToHighestLoad, SymbolicValue constantDuration) {
-        this.baseLoad = baseLoad;
-        this.highestLoad = highestLoad;
-        this.timeToHighestLoad = timeToHighestLoad;
-        this.constantDuration = constantDuration;
-    }
 }

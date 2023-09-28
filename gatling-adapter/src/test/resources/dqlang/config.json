@@ -14,13 +14,17 @@
         "workload": {
           "type": "OPEN",
           "load_profile": {
+            "type": "constant",
             "base_load": {
+              "type": "integer",
               "name": "LOW"
             },
             "target_load": {
+              "type": "integer",
               "name": "HIGH"
             },
             "duration": {
+              "type": "integer",
               "name": "FAST"
             }
           }
@@ -33,14 +37,6 @@
       "endpoint": {
         "field": "/api/users/2",
         "operation": "GET",
-        "path_variables": {
-        },
-        "url_parameter": {
-        },
-        "request_parameter": {
-        },
-        "payload": {
-        },
         "responses": [
           {
             "expected_code": 200,
