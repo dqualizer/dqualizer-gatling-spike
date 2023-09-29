@@ -33,6 +33,10 @@ dependencies{
     implementation "io.gatling:gatling-app:3.9.5"
     implementation "io.gatling:gatling-core:3.9.5"
     implementation "io.gatling.highcharts:gatling-charts-highcharts:3.9.5"
+
+    // Import simulation.log
+    // Latest version has transitive vulnerabilities
+    implementation 'com.opencsv:opencsv:3.7'
 }
 
 repositories {
