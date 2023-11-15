@@ -33,14 +33,4 @@ public class FileConfig {
     public static String getLocalGatlingConfigPath() {
         return gatlingConfigPath;
     }
-
-    /**
-     * Returns the absolute path of the results folder, which contains simulation results
-     *
-     * @return Absolute path of results folder
-     */
-    public static Path getResultFilePath() {
-        String path = System.getProperty("user.dir") + "/results/";
-        return Paths.get(path);
-    }
 }

@@ -37,6 +37,9 @@ dependencies{
     // Import simulation.log
     // Latest version has transitive vulnerabilities
     implementation 'com.opencsv:opencsv:3.7'
+
+    implementation 'io.opentelemetry:opentelemetry-exporter-otlp:1.19.0'
+    implementation 'io.opentelemetry:opentelemetry-sdk:1.19.0'
 }
 
 repositories {

@@ -52,13 +52,13 @@ public class ScenarioHelper {
         int thinkTime = this.getThinkTime();
 
         logger.info("Using REPETITION: " + repetition);
-        logger.info("Using THINKTIME: " + thinkTime + " seconds");
+        logger.info("Using THINK TIME: " + thinkTime + " seconds");
 
         return scenarioBuilder.repeat(repetition).on(exec(requestChain).pause(thinkTime));
     }
 
     private HttpRequestActionBuilder getActionBuilder(String method, String path) {
-        String name = "REQUEST";
+        String name = "My-Request-Name";
         HttpRequestActionBuilder actionBuilder;
 
         switch (method) {

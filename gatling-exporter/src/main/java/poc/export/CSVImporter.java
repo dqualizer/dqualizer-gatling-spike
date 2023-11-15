@@ -5,6 +5,9 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.enums.CSVReaderNullFieldIndicator;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import poc.config.FileConfig;
 
 import java.io.*;
@@ -14,28 +17,31 @@ import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 /**
  * Util class, to import data from the last created simulation.log
  * The simulation.log can be read as a csv file, which uses '\t' as separator
  */
+@Component
+@Slf4j
 public class CSVImporter {
-    private static final Logger logger = Logger.getLogger(CSVImporter.class.getName());
-    private static final Path resultsFolderPath = FileConfig.getResultFilePath();
 
-    public static List<String[]> importMetrics() throws IOException {
+    @Autowired
+    private FileConfig fileConfig;
+
+    public List<String[]> importMetrics() throws IOException {
         String simulationLogPath = getSimulationLogPath();
-        logger.info("READING DATA FROM CSV: " + simulationLogPath);
+        log.info("READING DATA FROM CSV: " + simulationLogPath);
 
         return readCSV(simulationLogPath);
     }
 
-    private static String getSimulationLogPath() {
+    private String getSimulationLogPath() {
         List<Path> simulationFolders = new LinkedList<>();
 
         // Read all existing sub-folders of the result folder
+        Path resultsFolderPath = fileConfig.getResultFilePath();
         try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(resultsFolderPath)) {
             for(Path path : directoryStream) simulationFolders.add(path);
         } catch (IOException e) {
@@ -59,7 +65,7 @@ public class CSVImporter {
         else throw new RuntimeException("NO SIMULATION FOLDERS FOUND");
     }
 
-    private static List<String []> readCSV(String filePath) throws IOException {
+    private List<String []> readCSV(String filePath) throws IOException {
         InputStream stream = new FileInputStream(filePath);
         Reader streamReader = new InputStreamReader(stream);
 
@@ -76,7 +82,7 @@ public class CSVImporter {
         List<String[]> csv = reader.readAll();
         reader.close();
 
-        logData(csv); //remove later
+        logData(csv); //TODO remove later
         return csv;
     }
 
@@ -84,13 +90,13 @@ public class CSVImporter {
      * Helper method for development
      * Should be removed later
      */
-    private static void logData(List<String[]> data) {
+    private void logData(List<String[]> data) {
         StringBuilder builder = new StringBuilder();
 
         data.forEach(array -> {
             for(String str : array) builder.append(str + ", ");
         });
 
-        logger.info(builder.toString());
+        log.info(builder.toString());
     }
 }
