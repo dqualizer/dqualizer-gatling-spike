@@ -2,10 +2,16 @@ package poc.export.data;
 
 import io.opentelemetry.sdk.metrics.data.LongPointData;
 
-public interface DataObject {
+import java.util.concurrent.TimeUnit;
+
+public abstract class DataObject {
 
     /**
      * @return A metric created from the data stored in the current data object
      */
-    LongPointData createPointData();
+    public abstract LongPointData createPointData();
+
+    Long getFixedTimestamp(Long timestamp) {
+        return TimeUnit.MILLISECONDS.toNanos(timestamp);
+    }
 }

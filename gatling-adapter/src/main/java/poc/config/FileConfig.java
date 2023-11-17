@@ -15,7 +15,7 @@ public class FileConfig {
     // Project, where the created gatling config file should be created
     @Value("${gatling.config.project:gatling-runner}")
     private String projectDirectory;
-    private static final String gatlingConfigName = "dq-gatling.conf";
+    private static final String gatlingConfigPath = "config/dq-gatling.conf";
     private static final String constantsPath = "constant/constants.json";
 
     private String getResourcePath(String resource) {
@@ -29,11 +29,13 @@ public class FileConfig {
     public String getGatlingConfigPath() {
         String resourceDirectory;
 
-        if(projectDirectory.equals("gatling-adapter")) resourceDirectory = "gatling-adapter/src/main/resources/gatling/";
-        else if(projectDirectory.equals("gatling-runner")) resourceDirectory = "gatling-runner/src/gatling/resources/config/";
+        if(projectDirectory.equals("gatling-adapter")) resourceDirectory = "gatling-adapter/src/main/resources/";
+        else if(projectDirectory.equals("gatling-runner")) resourceDirectory = "gatling-runner/src/gatling/resources/";
         else throw new UnknownTypeException(projectDirectory);
 
-        return getResourcePath(resourceDirectory + gatlingConfigName);
+        log.info("PATH: " + gatlingConfigPath);
+
+        return getResourcePath(resourceDirectory + gatlingConfigPath);
     }
 
     /**

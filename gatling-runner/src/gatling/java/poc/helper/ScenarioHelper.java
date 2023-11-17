@@ -58,7 +58,7 @@ public class ScenarioHelper {
     }
 
     private HttpRequestActionBuilder getActionBuilder(String method, String path) {
-        String name = "My-Request-Name";
+        String name = "My-Request-Name";    //TODO Customizable?
         HttpRequestActionBuilder actionBuilder;
 
         switch (method) {
@@ -83,7 +83,7 @@ public class ScenarioHelper {
         return actionBuilder;
     }
 
-    // Currently, only json & csv is supported
+    // Currently, only json & csv are supported
     private FeederBuilder<?> getFeederBuilder(String feeder) {
         String feederPath = params.getString(feeder);
         logger.info("Using FEEDER: " + feederPath);
@@ -97,7 +97,7 @@ public class ScenarioHelper {
 
     private Map<String, Object> getQueryParams() {
         String queryParamsPath = params.getString("queryParams");
-        logger.info("Using QUERYPARAMS: " + queryParamsPath);
+        logger.info("Using QUERY PARAMS: " + queryParamsPath);
 
         List<Map<String,Object>> mapList = jsonFile(queryParamsPath).readRecords();
         // There should be only one object inside the list

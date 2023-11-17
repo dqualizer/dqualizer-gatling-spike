@@ -4,10 +4,13 @@ import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.sdk.metrics.data.LongPointData;
 import io.opentelemetry.sdk.metrics.internal.data.ImmutableLongPointData;
 
+import java.time.Instant;
+import java.util.concurrent.TimeUnit;
+
 import static io.opentelemetry.api.common.AttributeKey.stringKey;
 import static poc.export.data.GatlingSimulationType.REQUEST;
 
-public class RequestData implements DataObject {
+public class RequestData extends DataObject {
 
     private final String name;
     private final Long startTime;
@@ -16,38 +19,43 @@ public class RequestData implements DataObject {
 
     public RequestData(String[] simulationLine) {
         this.name = simulationLine[2];
-        this.startTime = Long.valueOf(simulationLine[3]);
-        this.endTime = Long.valueOf(simulationLine[4]);
-        //Long startTimestamp = Long.parseLong(simulationLine[3]);
-        //this.startTime = TimeUnit.SECONDS.toNanos(startTimestamp);
-        //Long endTimestamp = Long.parseLong(simulationLine[4]);
-        //.endTime = TimeUnit.SECONDS.toNanos(endTimestamp);
+        this.startTime = Long.parseLong(simulationLine[3]);
+        this.endTime = Long.parseLong(simulationLine[4]);
         this.status = simulationLine[5];
     }
 
     @Override
     public LongPointData createPointData() {
-        Attributes attributes = Attributes.of(stringKey("type"), REQUEST.name());
+        Long startTimestamp = getFixedTimestamp(startTime);
+        Long endTimestamp = getFixedTimestamp(endTime);
+        Attributes attributes = Attributes.of(
+                stringKey("type"), REQUEST.name(),
+                stringKey("name"), this.name,
+                stringKey("status"), this.status
+        );
         Long duration = getDuration();
         return ImmutableLongPointData.create(
-                startTime,
-                endTime,
+                startTimestamp,
+                endTimestamp,
                 attributes,
                 duration
-        );//.create(startTime, endTime, attributes, getDuration());
-
+        );
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public Long getStartTime() {
-        return this.startTime;
-    }
-
-    public Long getEndTime() {
-        return this.endTime;
+    public LongPointData createCounterData(long counter) {
+        Long startTimestamp = getFixedTimestamp(startTime);
+        Long endTimestamp = getFixedTimestamp(endTime);
+        Attributes attributes = Attributes.of(
+                stringKey("type"), REQUEST.name(),
+                stringKey("name"), this.name,
+                stringKey("status"), this.status
+        );
+        return ImmutableLongPointData.create(
+          startTimestamp,
+          endTimestamp,
+          attributes,
+          counter
+        );
     }
 
     public String getStatus() {
@@ -57,7 +65,6 @@ public class RequestData implements DataObject {
     private Long getDuration() {
         return this.endTime - this.startTime;
     }
-
 
     @Override
     public String toString() {

@@ -7,7 +7,7 @@ services:
       context: gatling-adapter
       dockerfile: Dockerfile
     volumes:
-      - ./gatling-runner/src/gatling/resources/config:/app/gatling-adapter/src/main/resources/gatling
+      - ./docker-shared/config:/app/gatling-adapter/src/main/resources/config
     ports:
       - "8090:8090"
     environment:
@@ -19,8 +19,8 @@ services:
       context: gatling-runner
       dockerfile: Dockerfile
     volumes:
-      - ./gatling-runner/src/gatling/resources/config:/app/gatling-runner/src/gatling/resources/config
-      - ./gatling-runner/results:/app/results
+      - ./docker-shared/config:/app/gatling-runner/src/gatling/resources/config
+      - ./docker-shared/results:/app/results
     ports:
       - "8091:8091"
     depends_on:
@@ -33,7 +33,7 @@ services:
       context: gatling-exporter
       dockerfile: Dockerfile
     volumes:
-      - ./gatling-runner/results/:/app/results
+      - ./docker-shared/results/:/app/results
     ports:
       - "8092:8092"
     environment:
@@ -43,7 +43,7 @@ services:
         condition: service_completed_successfully
 
   otel-collector:
-    image: otel/opentelemetry-collector-contrib
+    image: otel/opentelemetry-collector-contrib:0.88.0
     container_name: "java-gatling-otel-collector"
     command: [ "--config=/etc/opentelemetry/otel-config.yml" ]
     volumes:
@@ -54,7 +54,7 @@ services:
       - ./env/.env
 
   influxdb:
-    image: influxdb:latest
+    image: influxdb:2.7
     container_name: "gatling-influx"
     ports:
       - "8086:8086"
@@ -62,7 +62,7 @@ services:
       - ./env/.env
 
   grafana:
-    image: grafana/grafana:9.1.8
+    image: grafana/grafana:9.5.14
     container_name: "gatling-grafana"
     volumes:
       - ./docker-config/grafana/provisioning:/usr/share/grafana/custom/
@@ -72,9 +72,7 @@ services:
     env_file:
       - ./env/.env
     environment:
-      - GF_PANELS_DISABLE_SANITIZE_HTML=TRUE
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_PATHS_PROVISIONING=/usr/share/grafana/custom/
     depends_on:
       - influxdb
-

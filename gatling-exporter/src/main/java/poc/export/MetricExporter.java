@@ -37,14 +37,20 @@ public class MetricExporter {
     }
 
     private void buildExporter() {
-        //If running in docker, set OTEL_HOST with service of otel-collector
-        String otelHost = System.getenv("OTEL_HOST");
-        if (otelHost == null) otelHost = "localhost";
-
+        String otelHost = getCollectorHost();
         exporter = OtlpHttpMetricExporter.builder()
                 .setEndpoint("http://" + otelHost + ":4318/v1/metrics")
                 .setTimeout(Duration.ofSeconds(1))
                 .build();
         log.info("USING EXPORTER: " + exporter);
+    }
+
+    /**
+     * @return Host on which a OpenTelemetry Collector is running
+     */
+    private String getCollectorHost() {
+        String host = System.getenv("OTEL_HOST");
+        if (host != null) return host;
+        else return "localhost";
     }
 }

@@ -27,7 +27,7 @@ public class HttpProtocolHelper {
 
         if (config.hasPath("scenario.params.requestParams")) {
             String requestParamsPath = config.getString("scenario.params.requestParams");
-            logger.info("Using REQUESTPARAMS: " + requestParamsPath);
+            logger.info("Using REQUEST PARAMS: " + requestParamsPath);
 
             Map<String, String> headers = this.getHeaders(requestParamsPath);
             return http.baseUrl(baseURL).headers(headers);

@@ -2,7 +2,7 @@ package poc.export.data;
 
 import io.opentelemetry.sdk.metrics.data.LongPointData;
 
-public class SimulationData implements DataObject {
+public class SimulationData extends DataObject {
     private final String name;
     private final Long startTime;
     private final String gatlingVersion;

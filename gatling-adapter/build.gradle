@@ -6,6 +6,7 @@ plugins {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
 
     // json annotations
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'

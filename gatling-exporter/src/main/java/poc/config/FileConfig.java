@@ -14,7 +14,7 @@ public class FileConfig {
      * @return Absolute path of results folder
      */
     public Path getResultFilePath() {
-        String path = System.getProperty("user.dir") + "/results/";
+        String path = System.getProperty("user.dir") + "/results";
         return Paths.get(path);
     }
 }

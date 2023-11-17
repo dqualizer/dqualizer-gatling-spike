@@ -3,7 +3,7 @@ version: '3.9'
 
 services:
   otel-collector:
-    image: otel/opentelemetry-collector-contrib
+    image: otel/opentelemetry-collector-contrib:0.88.0
     container_name: "java-gatling-otel-collector"
     command: [ "--config=/etc/opentelemetry/otel-config.yml" ]
     volumes:
@@ -14,15 +14,17 @@ services:
       - ./env/.env
 
   influxdb:
-    image: influxdb:latest
+    image: influxdb:2.7
     container_name: "gatling-influx"
+#    volumes:
+#      - ./docker-config/influx/influx-config.yaml:/etc/influxdb2/configs/influx-config.yaml
     ports:
       - "8086:8086"
     env_file:
       - ./env/.env
 
   grafana:
-    image: grafana/grafana:9.1.8
+    image: grafana/grafana:9.5.14
     container_name: "gatling-grafana"
     volumes:
       - ./docker-config/grafana/provisioning:/usr/share/grafana/custom/
@@ -32,9 +34,7 @@ services:
     env_file:
       - ./env/.env
     environment:
-      - GF_PANELS_DISABLE_SANITIZE_HTML=TRUE
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_PATHS_PROVISIONING=/usr/share/grafana/custom/
     depends_on:
       - influxdb
-
