@@ -38,7 +38,7 @@ public class OpenInjection implements Injectable {
         int constantDuration = increaseConfig.getInt("constantDuration");
 
         logger.info("Running OPEN LOAD INCREASE with" + newLine +
-                        "\t BASE LOAD : " + baseLoad + " users" + newLine +
+                        "\t BASE LOAD: " + baseLoad + " users" + newLine +
                         "\t HIGHEST LOAD: " + highestLoad + " users" + newLine +
                         "\t TIME TO HIGHEST LOAD: " + timeToHighestLoad + " seconds" + newLine +
                         "\t CONSTANT DURATION: " + constantDuration + " seconds"
@@ -60,7 +60,7 @@ public class OpenInjection implements Injectable {
         int duration = increaseConfig.getInt("duration");
 
         logger.info("Running OPEN LOAD PEAK with" + newLine +
-                "\t BASE LOAD : " + baseLoad + " users" + newLine +
+                "\t BASE LOAD: " + baseLoad + " users" + newLine +
                 "\t PEAK LOAD: " + peakLoad + " users" + newLine +
                 "\t DURATION: " + duration + " seconds"
         );
@@ -81,7 +81,7 @@ public class OpenInjection implements Injectable {
         int duration = increaseConfig.getInt("duration");
 
         logger.info("Running OPEN CONSTANT LOAD with" + newLine +
-                "\t BASE LOAD : " + baseLoad + " users" + newLine +
+                "\t BASE LOAD: " + baseLoad + " users" + newLine +
                 "\t TARGET LOAD: " + targetLoad + " users" + newLine +
                 "\t DURATION: " + duration + " seconds"
         );

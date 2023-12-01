@@ -17,7 +17,6 @@ public class ConfigTest {
     private final String file = "config.json";
 
     @Test
-    @Disabled("LoadProfile Subclasses are not configured for ObjectMapper")
     void objectMapperDoesNotThrowException() throws IOException {
         String configJSON = this.loadConfig(file);
         ObjectMapper objectMapper = new ObjectMapper();

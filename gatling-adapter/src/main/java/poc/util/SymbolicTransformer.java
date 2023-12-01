@@ -1,5 +1,7 @@
 package poc.util;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import poc.dqlang.constants.GatlingConstants;
 import poc.dqlang.constants.symbolics.generic.SymbolicDurationType;
 import poc.dqlang.constants.symbolics.generic.SymbolicLoadType;
@@ -10,12 +12,16 @@ import poc.exception.UnknownTypeException;
 
 import java.util.concurrent.TimeUnit;
 
+@Component
 public class SymbolicTransformer {
+
+    @Autowired
+    private ConstantsLoader constantsLoader;
 
     public final static String LOAD = "load";
     public final static String DURATION = "duration";
 
-    public static Number calculateValue(SymbolicValue symbolicValue) {
+    public Number calculateValue(SymbolicValue symbolicValue) {
         if(symbolicValue instanceof SymbolicIntValue symbolicIntValue) {
             return calculateIntValue(symbolicIntValue);
          }
@@ -25,8 +31,8 @@ public class SymbolicTransformer {
         else throw new UnknownTypeException(symbolicValue.getClass().getName());
     }
 
-    public static Number calculateTimeUnit(Number value, String type) {
-        GatlingConstants constants = ConstantsLoader.load();
+    public Number calculateTimeUnit(Number value, String type) {
+        GatlingConstants constants = constantsLoader.load();
         long longValue = value.longValue();
 
         switch (type) {
@@ -47,8 +53,8 @@ public class SymbolicTransformer {
         }
     }
 
-    private static Integer calculateIntValue(SymbolicIntValue symbolicIntValue) {
-        GatlingConstants constants = ConstantsLoader.load();
+    private Integer calculateIntValue(SymbolicIntValue symbolicIntValue) {
+        GatlingConstants constants = constantsLoader.load();
         String name = symbolicIntValue.getName();
 
         SymbolicLoadType<Integer> loadConstants = constants.getSymbolics().getLoad().getInteger();
@@ -77,8 +83,8 @@ public class SymbolicTransformer {
         }
     }
 
-    private static Double calculateDoubleValue(SymbolicDoubleValue symbolicDoubleValue) {
-        GatlingConstants constants = ConstantsLoader.load();
+    private Double calculateDoubleValue(SymbolicDoubleValue symbolicDoubleValue) {
+        GatlingConstants constants = constantsLoader.load();
         String name = symbolicDoubleValue.getName();
 
         SymbolicLoadType<Double> loadConstants = constants.getSymbolics().getLoad().getDecimal();

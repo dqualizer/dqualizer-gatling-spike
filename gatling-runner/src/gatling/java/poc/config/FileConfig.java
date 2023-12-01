@@ -1,6 +1,7 @@
 package poc.config;
 
-import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class FileConfig {
 
@@ -8,10 +9,8 @@ public class FileConfig {
     private static final String gatlingConfigPath = "config/dq-gatling.conf";
 
     private static String getResourcePath(String resource) {
-        File resourceFile = new File(resource);
-        String path = resourceFile.getAbsolutePath();
-
-        return path;
+        Path resourceDirectory = Paths.get(resource).toAbsolutePath().normalize();
+        return resourceDirectory.toString();
     }
 
     /**
@@ -33,5 +32,15 @@ public class FileConfig {
      */
     public static String getLocalGatlingConfigPath() {
         return gatlingConfigPath;
+    }
+
+    /**
+     * Returns the absolute path of the results folder, which contains simulation results
+     *
+     * @return Absolute path of results folder
+     */
+    public static Path getResultFilePath() {
+        String path = System.getProperty("user.dir") + "/results";
+        return Paths.get(path);
     }
 }

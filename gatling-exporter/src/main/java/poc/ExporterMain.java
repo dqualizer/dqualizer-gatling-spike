@@ -6,9 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @Slf4j
-public class AdapterMain {
+public class ExporterMain {
     public static void main(String[] args) {
-        log.info("STARTING GATLING ADAPTER");
-        SpringApplication.run(AdapterMain.class, args);
+        log.info("STARTING GATLING EXPORTER");
+        SpringApplication.run(ExporterMain.class, args);
     }
 }

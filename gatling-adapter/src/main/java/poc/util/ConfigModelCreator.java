@@ -38,12 +38,17 @@ public class ConfigModelCreator {
     }
 
     private static Stimulus createStimulusModel() {
-        SymbolicValue baseLoad = new SymbolicIntValue("MEDIUM");
-        SymbolicValue highestLoad = new SymbolicIntValue("HIGH");
-        SymbolicValue timeToHighestLoad = new SymbolicIntValue("SLOW");
-        SymbolicValue constantDuration = new SymbolicIntValue("FAST");
+        SymbolicValue baseLoad = SymbolicIntValue.builder().name("MEDIUM").build();
+        SymbolicValue highestLoad = SymbolicIntValue.builder().name("HIGH").build();
+        SymbolicValue timeToHighestLoad = SymbolicIntValue.builder().name("SLOW").build();
+        SymbolicValue constantDuration = SymbolicIntValue.builder().name("FAST").build();
 
-        LoadProfile loadProfile = new LoadIncrease(baseLoad, highestLoad, timeToHighestLoad, constantDuration);
+        LoadProfile loadProfile = LoadIncrease.builder()
+                .baseLoad(baseLoad)
+                .highestLoad(highestLoad)
+                .timeToHighestLoad(timeToHighestLoad)
+                .constantDuration(constantDuration)
+                .build();
         Workload workload = new Workload(WorkloadType.OPEN, loadProfile);
         int accuracy = 100;
 

@@ -1,5 +1,6 @@
 package poc.adapter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import poc.dqlang.constants.GatlingConstants;
 import poc.dqlang.constants.accuracy.Repetition;
@@ -15,6 +16,11 @@ import poc.util.ConstantsLoader;
 
 @Component
 public class StimulusAdapter {
+
+    @Autowired
+    private SymbolicTransformer transformer;
+    @Autowired
+    private ConstantsLoader constantsLoader;
 
     private final static String newLine = System.lineSeparator();
 
@@ -62,15 +68,15 @@ public class StimulusAdapter {
 
          if(loadProfile instanceof LoadIncrease loadIncrease) {
              selectProfile = "profile = increase" + newLine;
-             Number baseLoad  = SymbolicTransformer.calculateValue(loadIncrease.getBaseLoad());
-             Number highestLoad = SymbolicTransformer.calculateValue(loadIncrease.getHighestLoad());
-             Number timeToHighestLoad  = SymbolicTransformer.calculateValue(loadIncrease.getTimeToHighestLoad());
-             Number constantDuration  = SymbolicTransformer.calculateValue(loadIncrease.getConstantDuration());
+             Number baseLoad  = transformer.calculateValue(loadIncrease.getBaseLoad());
+             Number highestLoad = transformer.calculateValue(loadIncrease.getHighestLoad());
+             Number timeToHighestLoad  = transformer.calculateValue(loadIncrease.getTimeToHighestLoad());
+             Number constantDuration  = transformer.calculateValue(loadIncrease.getConstantDuration());
 
-             Number adaptedBaseLoad = SymbolicTransformer.calculateTimeUnit(baseLoad, SymbolicTransformer.LOAD);
-             Number adaptedHighestLoad = SymbolicTransformer.calculateTimeUnit(highestLoad, SymbolicTransformer.LOAD);
-             Number adaptedTimeToHighestLoad = SymbolicTransformer.calculateTimeUnit(timeToHighestLoad, SymbolicTransformer.DURATION);
-             Number adaptedConstantDuration = SymbolicTransformer.calculateTimeUnit(constantDuration, SymbolicTransformer.DURATION);
+             Number adaptedBaseLoad = transformer.calculateTimeUnit(baseLoad, SymbolicTransformer.LOAD);
+             Number adaptedHighestLoad = transformer.calculateTimeUnit(highestLoad, SymbolicTransformer.LOAD);
+             Number adaptedTimeToHighestLoad = transformer.calculateTimeUnit(timeToHighestLoad, SymbolicTransformer.DURATION);
+             Number adaptedConstantDuration = transformer.calculateTimeUnit(constantDuration, SymbolicTransformer.DURATION);
 
              profileBuilder.append("increase {" + newLine);
              profileBuilder.append("baseLoad = " + adaptedBaseLoad + newLine);
@@ -81,13 +87,13 @@ public class StimulusAdapter {
          }
          else if(loadProfile instanceof LoadPeak loadPeak) {
              selectProfile = "profile = peak" + newLine;
-             Number baseLoad  = SymbolicTransformer.calculateValue(loadPeak.getBaseLoad());
-             Number peakLoad = SymbolicTransformer.calculateValue(loadPeak.getPeakLoad());
-             Number duration  = SymbolicTransformer.calculateValue(loadPeak.getDuration());
+             Number baseLoad  = transformer.calculateValue(loadPeak.getBaseLoad());
+             Number peakLoad = transformer.calculateValue(loadPeak.getPeakLoad());
+             Number duration  = transformer.calculateValue(loadPeak.getDuration());
 
-             Number adaptedBaseLoad = SymbolicTransformer.calculateTimeUnit(baseLoad, SymbolicTransformer.LOAD);
-             Number adaptedPeakLoad = SymbolicTransformer.calculateTimeUnit(peakLoad, SymbolicTransformer.LOAD);
-             Number adaptedDuration = SymbolicTransformer.calculateTimeUnit(duration, SymbolicTransformer.DURATION);
+             Number adaptedBaseLoad = transformer.calculateTimeUnit(baseLoad, SymbolicTransformer.LOAD);
+             Number adaptedPeakLoad = transformer.calculateTimeUnit(peakLoad, SymbolicTransformer.LOAD);
+             Number adaptedDuration = transformer.calculateTimeUnit(duration, SymbolicTransformer.DURATION);
 
              profileBuilder.append("peak {" + newLine);
              profileBuilder.append("baseLoad = " + adaptedBaseLoad + newLine);
@@ -97,13 +103,13 @@ public class StimulusAdapter {
          }
          else if(loadProfile instanceof ConstantLoad constantLoad) {
              selectProfile = "profile = constant" + newLine;
-             Number baseLoad  = SymbolicTransformer.calculateValue(constantLoad.getBaseLoad());
-             Number targetLoad = SymbolicTransformer.calculateValue(constantLoad.getTargetLoad());
-             Number duration  = SymbolicTransformer.calculateValue(constantLoad.getDuration());
+             Number baseLoad  = transformer.calculateValue(constantLoad.getBaseLoad());
+             Number targetLoad = transformer.calculateValue(constantLoad.getTargetLoad());
+             Number duration  = transformer.calculateValue(constantLoad.getDuration());
 
-             Number adaptedBaseLoad = SymbolicTransformer.calculateTimeUnit(baseLoad, SymbolicTransformer.LOAD);
-             Number adaptedTargetLoad = SymbolicTransformer.calculateTimeUnit(targetLoad, SymbolicTransformer.LOAD);
-             Number adaptedDuration = SymbolicTransformer.calculateTimeUnit(duration, SymbolicTransformer.DURATION);
+             Number adaptedBaseLoad = transformer.calculateTimeUnit(baseLoad, SymbolicTransformer.LOAD);
+             Number adaptedTargetLoad = transformer.calculateTimeUnit(targetLoad, SymbolicTransformer.LOAD);
+             Number adaptedDuration = transformer.calculateTimeUnit(duration, SymbolicTransformer.DURATION);
 
              profileBuilder.append("constant {" + newLine);
              profileBuilder.append("baseLoad = " + adaptedBaseLoad + newLine);
@@ -128,10 +134,10 @@ public class StimulusAdapter {
 
         if(loadProfile instanceof LoadIncrease loadIncrease) {
             selectProfile = "profile = increase" + newLine;
-            Number baseLoad  = SymbolicTransformer.calculateValue(loadIncrease.getBaseLoad());
-            Number highestLoad = SymbolicTransformer.calculateValue(loadIncrease.getHighestLoad());
-            Number timeToHighestLoad  = SymbolicTransformer.calculateValue(loadIncrease.getTimeToHighestLoad());
-            Number constantDuration  = SymbolicTransformer.calculateValue(loadIncrease.getConstantDuration());
+            Number baseLoad  = transformer.calculateValue(loadIncrease.getBaseLoad());
+            Number highestLoad = transformer.calculateValue(loadIncrease.getHighestLoad());
+            Number timeToHighestLoad  = transformer.calculateValue(loadIncrease.getTimeToHighestLoad());
+            Number constantDuration  = transformer.calculateValue(loadIncrease.getConstantDuration());
 
             profileBuilder.append("increase {" + newLine);
             profileBuilder.append("baseLoad = " + baseLoad + newLine);
@@ -142,9 +148,9 @@ public class StimulusAdapter {
         }
         else if(loadProfile instanceof LoadPeak loadPeak){
             selectProfile = "profile = peak" + newLine;
-            Number baseLoad  = SymbolicTransformer.calculateValue(loadPeak.getBaseLoad());
-            Number peakLoad = SymbolicTransformer.calculateValue(loadPeak.getPeakLoad());
-            Number duration  = SymbolicTransformer.calculateValue(loadPeak.getDuration());
+            Number baseLoad  = transformer.calculateValue(loadPeak.getBaseLoad());
+            Number peakLoad = transformer.calculateValue(loadPeak.getPeakLoad());
+            Number duration  = transformer.calculateValue(loadPeak.getDuration());
 
             profileBuilder.append("peak {" + newLine);
             profileBuilder.append("baseLoad = " + baseLoad + newLine);
@@ -154,9 +160,9 @@ public class StimulusAdapter {
         }
         else if(loadProfile instanceof ConstantLoad constantLoad) {
             selectProfile = "profile = constant" + newLine;
-            Number baseLoad  = SymbolicTransformer.calculateValue(constantLoad.getBaseLoad());
-            Number targetLoad = SymbolicTransformer.calculateValue(constantLoad.getTargetLoad());
-            Number duration  = SymbolicTransformer.calculateValue(constantLoad.getDuration());
+            Number baseLoad  = transformer.calculateValue(constantLoad.getBaseLoad());
+            Number targetLoad = transformer.calculateValue(constantLoad.getTargetLoad());
+            Number duration  = transformer.calculateValue(constantLoad.getDuration());
 
             profileBuilder.append("constant {" + newLine);
             profileBuilder.append("baseLoad = " + baseLoad + newLine);
@@ -176,7 +182,7 @@ public class StimulusAdapter {
     }
 
     private String getRepetitionConfig(int accuracy) {
-        GatlingConstants constants = ConstantsLoader.load();
+        GatlingConstants constants = constantsLoader.load();
 
         Repetition repetitionConstants = constants.getAccuracy().getRepetition();
 
