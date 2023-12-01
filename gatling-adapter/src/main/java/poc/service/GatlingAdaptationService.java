@@ -33,7 +33,7 @@ public class GatlingAdaptationService {
     }
 
     private void adapt() throws IOException {
-        // TODO In Zukunft muss hier die Config über eine Schnittstelle kommen und nicht im Project erzeugt werden
+        // TODO Remove ConfigModelCreator
         LoadTestConfiguration configModel = ConfigModelCreator.create();
         log.info("LOAD TEST CONFIG MODEL WAS CREATED");
 
