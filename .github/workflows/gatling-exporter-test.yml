@@ -1,8 +1,6 @@
 name: Test gatling-exporter
 
 on:
-  push:
-    branches: [ "*" ]
   pull_request:
     branches: [ "main" ]
 
