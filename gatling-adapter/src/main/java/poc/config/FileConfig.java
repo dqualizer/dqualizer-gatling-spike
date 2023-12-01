@@ -12,9 +12,9 @@ import java.nio.file.Paths;
 @Slf4j
 public class FileConfig {
 
-    // Project, where the created gatling config file should be created
-    @Value("${gatling.config.project:gatling-runner}")
-    private String projectDirectory;
+    // Module, where the created gatling config file should be created
+    @Value("${gatling.config.module:gatling-runner}")
+    private String moduleDirectory;
     private static final String gatlingConfigPath = "config/dq-gatling.conf";
     private static final String constantsPath = "constant/constants.json";
 
@@ -29,9 +29,9 @@ public class FileConfig {
     public String getGatlingConfigPath() {
         String resourceDirectory;
 
-        if(projectDirectory.equals("gatling-adapter")) resourceDirectory = "gatling-adapter/src/main/resources/";
-        else if(projectDirectory.equals("gatling-runner")) resourceDirectory = "gatling-runner/src/gatling/resources/";
-        else throw new UnknownTypeException(projectDirectory);
+        if(moduleDirectory.equals("gatling-adapter")) resourceDirectory = "gatling-adapter/src/main/resources/";
+        else if(moduleDirectory.equals("gatling-runner")) resourceDirectory = "gatling-runner/src/gatling/resources/";
+        else throw new UnknownTypeException(moduleDirectory);
 
         return getResourcePath(resourceDirectory + gatlingConfigPath);
     }
