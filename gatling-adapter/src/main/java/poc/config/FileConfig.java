@@ -33,8 +33,6 @@ public class FileConfig {
         else if(projectDirectory.equals("gatling-runner")) resourceDirectory = "gatling-runner/src/gatling/resources/";
         else throw new UnknownTypeException(projectDirectory);
 
-        log.info("PATH: " + gatlingConfigPath);
-
         return getResourcePath(resourceDirectory + gatlingConfigPath);
     }
 

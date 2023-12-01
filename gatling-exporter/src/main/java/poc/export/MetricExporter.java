@@ -26,10 +26,10 @@ public class MetricExporter {
     public void export() throws IOException {
         this.buildExporter();
 
-        List<String[]> rawMetrics = csvImporter.importMetrics();
+        List<String[]> records = csvImporter.importMetrics();
         log.info("RAW METRICS HAVE BEEN READ FROM CSV");
 
-        List<MetricData> metricData = metricBuilder.buildMetrics(rawMetrics);
+        List<MetricData> metricData = metricBuilder.buildMetrics(records);
         log.info("METRICS HAVE BEEN CREATED FOR EXPORTER");
 
         exporter.export(metricData);

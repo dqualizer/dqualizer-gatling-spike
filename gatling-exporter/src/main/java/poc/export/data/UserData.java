@@ -3,56 +3,42 @@ package poc.export.data;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.sdk.metrics.data.LongPointData;
 import io.opentelemetry.sdk.metrics.internal.data.ImmutableLongPointData;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.concurrent.TimeUnit;
 
 import static io.opentelemetry.api.common.AttributeKey.stringKey;
 import static poc.export.data.GatlingSimulationType.USER;
 
+@Getter
+@ToString
 public class UserData extends DataObject {
+    public enum UserType { START, END }
+
     private final String name;
-    private final String type; // Either START or END
-    private final Long time;
+    private final UserType type;
+    private final Long timestamp;
 
     public UserData(String[] simulationLine) {
         this.name = simulationLine[1];
-        this.type = simulationLine[2];
-        this.time = Long.valueOf(simulationLine[3]);
+        this.type = UserType.valueOf(simulationLine[2]);
+        Long rawTimestamp = Long.valueOf(simulationLine[3]);
+        this.timestamp = getFixedTimestamp(rawTimestamp);
     }
 
     @Override
-    public LongPointData createPointData() {
-        return null;
-    }
-
-    public LongPointData createCounterData(long counter) {
-        Long timestamp = getFixedTimestamp(time);
+    public LongPointData createCountData(long counter) {
         Attributes attributes = Attributes.of(
                 stringKey("type"), USER.name(),
-                stringKey("name"), this.name
+                stringKey("name"), this.name,
+                stringKey("service.name"), SERVICE_NAME
         );
         return ImmutableLongPointData.create(
-                timestamp,
-                timestamp,
+                this.timestamp,
+                this.timestamp,
                 attributes,
                 counter
         );
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getType() {
-        return this.type;
-    }
-
-    @Override
-    public String toString() {
-        return "UserData {" +
-                "name = '" + name + '\'' +
-                ", type = '" + type + '\'' +
-                ", time = " + time +
-                '}';
     }
 }

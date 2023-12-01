@@ -44,7 +44,7 @@ services:
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.88.0
-    container_name: "java-gatling-otel-collector"
+    container_name: "gatling-otel-collector"
     command: [ "--config=/etc/opentelemetry/otel-config.yml" ]
     volumes:
       - ./docker-config/opentelemetry/otel-config.yml:/etc/opentelemetry/otel-config.yml
