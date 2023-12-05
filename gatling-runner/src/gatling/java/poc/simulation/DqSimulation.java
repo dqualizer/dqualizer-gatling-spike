@@ -16,24 +16,21 @@ import static io.gatling.javaapi.core.CoreDsl.global;
 public class DqSimulation extends Simulation {
 
     private final Logger logger = Logger.getLogger(DqSimulation.class.getName());
-    private final String configPath = FileConfig.getLocalGatlingConfigPath();
-    private final Config config = ConfigFactory.load(configPath);
+    private final Config config = ConfigFactory.load(FileConfig.getLocalGatlingConfigPath());
 
-    private ScenarioHelper scenarioHelper;
-    private InjectionHelper injectionHelper;
-    private HttpProtocolHelper httpProtocolHelper;
-
-    private void initializeHelpers() {
-        this.scenarioHelper = new ScenarioHelper();
-        this.injectionHelper = new InjectionHelper();
-        this.httpProtocolHelper = new HttpProtocolHelper();
-    }
+    private final ScenarioHelper scenarioHelper = new ScenarioHelper(config);
+    private final InjectionHelper injectionHelper = new InjectionHelper(config);
+    private final HttpProtocolHelper httpProtocolHelper = new HttpProtocolHelper();
 
     private PopulationBuilder createPopulationBuilder() {
-        this.initializeHelpers();
         ScenarioBuilder scenario = scenarioHelper.getScenarioBuilder();
         PopulationBuilder population = injectionHelper.getPopulationBuilder(scenario);
         return population;
+    }
+
+    private ProtocolBuilder createProtocolBuilder() {
+        ProtocolBuilder protocol = httpProtocolHelper.createProtocolBuilder(config);
+        return protocol;
     }
 
     @Override
@@ -47,9 +44,12 @@ public class DqSimulation extends Simulation {
         logger.info("SIMULATION IS FINISHED");
     }
 
+    // TODO: Anscheinend werden bisher die Lasttests parallel ausgeführt
+    //  Für eine sequentielle Ausführung muss man das glaub ich hier im setUp() machen
+    //  Aber hey, der aktuelle Code ist sicher in Zukunft noch brauchbar
     {
         setUp(this.createPopulationBuilder())
-                .protocols(httpProtocolHelper.createProtocolBuilder())
+                .protocols(this.createProtocolBuilder())
                 .assertions(global().successfulRequests().percent().is(100.0)); //Validate whether all checks have passed
     }
 }

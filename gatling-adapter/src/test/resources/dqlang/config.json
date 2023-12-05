@@ -9,7 +9,7 @@
         "object": "id10",
         "activity": "id12"
       },
-      "description" :"Great",
+      "description": "Great",
       "stimulus": {
         "workload": {
           "type": "OPEN",
