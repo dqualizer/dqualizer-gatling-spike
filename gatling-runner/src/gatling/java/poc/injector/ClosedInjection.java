@@ -11,25 +11,23 @@ import java.util.logging.Logger;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
 
-//TODO Lastkurven sehen noch ganz fragwürdig aus
+// TODO Lastkurven sehen noch ganz fragwürdig aus
 public class ClosedInjection implements Injectable {
     private final Logger logger = Logger.getLogger(ClosedInjection.class.getName());
-    private final String newLine = System.lineSeparator();
-
-    private final String configPath = FileConfig.getLocalGatlingConfigPath();
-    private final Config injection = ConfigFactory.load(configPath).getConfig("stimulus.injectClosed");
-
     private final int warmUpDuration;
     private final int coolDownDuration;
+    private final Config injection;
 
-    public ClosedInjection() {
+    public ClosedInjection(Config stimulus) {
+        String configPath = FileConfig.getLocalGatlingConfigPath();
         Config technicalConfig = ConfigFactory.load(configPath).getConfig("technicalConstants");
         this.warmUpDuration = technicalConfig.getInt("warmUpDuration");
         this.coolDownDuration = technicalConfig.getInt("coolDownDuration");
+        this.injection = stimulus.getConfig(INJECT_CLOSED);
     }
 
     @Override
-    public PopulationBuilder createLoadIncreaseInjection(ScenarioBuilder scenarioBuilder) {
+    public PopulationBuilder createLoadIncreaseInjection(ScenarioBuilder scenarioBuilder, Config loadTest) {
         Config increaseConfig = injection.getConfig("increase");
         int baseLoad = increaseConfig.getInt("baseLoad");
         int highestLoad = increaseConfig.getInt("highestLoad");
@@ -52,7 +50,7 @@ public class ClosedInjection implements Injectable {
     }
 
     @Override
-    public PopulationBuilder createLoadPeakInjection(ScenarioBuilder scenarioBuilder) {
+    public PopulationBuilder createLoadPeakInjection(ScenarioBuilder scenarioBuilder, Config loadTest) {
         Config increaseConfig = injection.getConfig("peak");
         int baseLoad = increaseConfig.getInt("baseLoad");
         int peakLoad = increaseConfig.getInt("peakLoad");
@@ -72,7 +70,7 @@ public class ClosedInjection implements Injectable {
     }
 
     @Override
-    public PopulationBuilder createConstantLoadInjection(ScenarioBuilder scenarioBuilder) {
+    public PopulationBuilder createConstantLoadInjection(ScenarioBuilder scenarioBuilder, Config loadTest) {
         Config increaseConfig = injection.getConfig("constant");
         int baseLoad = increaseConfig.getInt("baseLoad");
         int targetLoad = increaseConfig.getInt("targetLoad");

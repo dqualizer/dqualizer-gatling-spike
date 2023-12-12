@@ -17,8 +17,13 @@ import static io.gatling.javaapi.http.HttpDsl.http;
 public class HttpProtocolHelper {
 
     private final Logger logger = Logger.getLogger(DqSimulation.class.getName());
+    private final Config config;
 
-    public HttpProtocolBuilder createProtocolBuilder(Config config) {
+    public HttpProtocolHelper(Config config) {
+        this.config = config;
+    }
+
+    public HttpProtocolBuilder createProtocolBuilder() {
         String baseURL = config.getString("baseURL");
         logger.info("BASEURL OF SIMULATION: " + baseURL);
 
