@@ -35,6 +35,7 @@ When running in Docker, it is important to pass specific files from one module t
 You can use the _docker-shared_ folder for this.
 
 The gatling-adapter creates a _dq-gatling.conf_, which has to be passed to the gatling-runner.
+The `wait_for_file.sh` script will wait until the configuration exists, before starting the jar.
 The gatling-runner creates simulation results, which have to be passed to the gatling-exporter.
 
 Additionally, the _docker-config_ folder contains configurations for the OpenTelemetry-Collector as well as Grafana.
