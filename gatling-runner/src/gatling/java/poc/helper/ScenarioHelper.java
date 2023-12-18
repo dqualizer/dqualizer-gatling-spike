@@ -38,7 +38,7 @@ public class ScenarioHelper {
         List<? extends Config> actions = loadTest.getConfigList("actions");
 
         if(actions.size() < 1) throw new IllegalStateException("Action list does not contain actions");
-        logger.info("Found " + actions.size() + " request actions");
+        logger.info("Found " + actions.size() + " request action(s)");
 
         for(Config action : actions) {
             RequestHelper requestHelper = new RequestHelper(action);

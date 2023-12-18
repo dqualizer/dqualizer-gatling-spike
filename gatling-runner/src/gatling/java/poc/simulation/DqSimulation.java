@@ -2,15 +2,12 @@ package poc.simulation;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import com.typesafe.config.ConfigList;
-import com.typesafe.config.ConfigValue;
 import io.gatling.javaapi.core.*;
 import poc.config.FileConfig;
 import poc.helper.HttpProtocolHelper;
 import poc.helper.InjectionHelper;
 import poc.helper.ScenarioHelper;
 
-import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -27,7 +24,7 @@ public class DqSimulation extends Simulation {
     private final InjectionHelper injectionHelper = new InjectionHelper();
 
     private List<PopulationBuilder> createPopulationBuilder() {
-        logger.info("LOADED CONFIGURATION: " + config);
+        logger.config( "LOADED CONFIGURATION: " + config);
         List<PopulationBuilder> populations = new LinkedList<>();
         List<? extends Config> loadTests = config.getConfigList("loadTests");
         int counter = 1;
