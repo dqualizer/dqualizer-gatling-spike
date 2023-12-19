@@ -82,21 +82,6 @@ public class CSVImporter {
         List<String[]> csv = reader.readAll();
         reader.close();
 
-        logData(csv); //TODO remove later
         return csv;
-    }
-
-    /**
-     * Helper method for development
-     * Should be removed later
-     */
-    private void logData(List<String[]> data) {
-        StringBuilder builder = new StringBuilder();
-
-        data.forEach(array -> {
-            for(String str : array) builder.append(str + ", ");
-        });
-
-        log.info(builder.toString());
     }
 }

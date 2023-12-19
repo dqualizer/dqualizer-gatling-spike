@@ -13,8 +13,8 @@ public class ConfigModelCreator {
 
     public static LoadTestConfiguration create() {
         LinkedHashSet<LoadTestArtifact> loadTests = new LinkedHashSet<>();
-        LoadTestArtifact oneLoadTest = createLoadTestModel("First dqTest");
-        LoadTestArtifact anotherLoadTest = createLoadTestModel("Second dqTest");
+        LoadTestArtifact oneLoadTest = createLoadTestModel();
+        LoadTestArtifact anotherLoadTest = createAnotherLoadTestModel();
         loadTests.add(oneLoadTest);
         loadTests.add(anotherLoadTest);
 
@@ -27,11 +27,24 @@ public class ConfigModelCreator {
         return config;
     }
 
-    private static LoadTestArtifact createLoadTestModel(String name) {
+    private static LoadTestArtifact createLoadTestModel() {
+        String name = "First dqTest";
         Artifact artifact = new Artifact();
         ResponseMeasure responseMeasure = new ResponseMeasure();
 
         Stimulus stimulus = createStimulusModel();
+        Endpoint endpoint = createEndpointModel();
+
+        LoadTestArtifact loadTest = new LoadTestArtifact(artifact, name, stimulus, responseMeasure, endpoint);
+        return loadTest;
+    }
+
+    private static LoadTestArtifact createAnotherLoadTestModel() {
+        String name = "Seconds dqTest";
+        Artifact artifact = new Artifact();
+        ResponseMeasure responseMeasure = new ResponseMeasure();
+
+        Stimulus stimulus = createAnotherStimulusModel();
         Endpoint endpoint = createEndpointModel();
 
         LoadTestArtifact loadTest = new LoadTestArtifact(artifact, name, stimulus, responseMeasure, endpoint);
@@ -52,6 +65,25 @@ public class ConfigModelCreator {
                 .build();
         Workload workload = new Workload(WorkloadType.OPEN, loadProfile);
         int accuracy = 100;
+
+        Stimulus stimulus = new Stimulus(workload, accuracy);
+        return  stimulus;
+    }
+
+    private static Stimulus createAnotherStimulusModel() {
+        SymbolicValue baseLoad = SymbolicIntValue.builder().name("LOW").build();
+        SymbolicValue highestLoad = SymbolicIntValue.builder().name("LOW").build();
+        SymbolicValue timeToHighestLoad = SymbolicIntValue.builder().name("FAST").build();
+        SymbolicValue constantDuration = SymbolicIntValue.builder().name("SLOW").build();
+
+        LoadProfile loadProfile = LoadIncrease.builder()
+                .baseLoad(baseLoad)
+                .highestLoad(highestLoad)
+                .timeToHighestLoad(timeToHighestLoad)
+                .constantDuration(constantDuration)
+                .build();
+        Workload workload = new Workload(WorkloadType.CLOSED, loadProfile);
+        int accuracy = 800;
 
         Stimulus stimulus = new Stimulus(workload, accuracy);
         return  stimulus;

@@ -168,7 +168,6 @@ public class StimulusAdapter {
             profileBuilder.append("}" + newLine);
         }
         else throw new UnknownTypeException(loadProfile.getClass().getName());
-        profileBuilder.append("}" + newLine);
 
         configBuilder.append(selectProfile);
         configBuilder.append("injectClosed {" + newLine);
