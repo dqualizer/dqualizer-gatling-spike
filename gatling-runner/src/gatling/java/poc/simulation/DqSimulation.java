@@ -23,7 +23,7 @@ public class DqSimulation extends Simulation {
     private final ScenarioHelper scenarioHelper = new ScenarioHelper(config);
     private final InjectionHelper injectionHelper = new InjectionHelper();
 
-    private List<PopulationBuilder> createPopulationBuilder() {
+    private PopulationBuilder createPopulationBuilderChain() {
         logger.config( "LOADED CONFIGURATION: " + config);
         List<PopulationBuilder> populations = new LinkedList<>();
         List<? extends Config> loadTests = config.getConfigList("loadTests");
@@ -38,7 +38,14 @@ public class DqSimulation extends Simulation {
             logger.info("SUCCESSFULLY SET UP LOAD TEST " + counter);
             counter++;
         }
-        return populations;
+        if(populations.isEmpty()) throw new IllegalStateException("NO LOAD TESTS WERE CREATED");
+
+        // Link all PopulationBuilder via andThen() to execute them sequentially
+        PopulationBuilder populationChain = populations.remove(0);
+        for (PopulationBuilder population : populations)
+            populationChain = populationChain.andThen(population);
+
+        return populationChain;
     }
 
     private ProtocolBuilder createProtocolBuilder() {
@@ -57,7 +64,7 @@ public class DqSimulation extends Simulation {
     }
 
     {
-        setUp(this.createPopulationBuilder())
+        setUp(this.createPopulationBuilderChain())
                 .protocols(this.createProtocolBuilder())
                 .assertions(global().successfulRequests().percent().is(100.0)); //Validate whether all checks have passed
     }

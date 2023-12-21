@@ -13,8 +13,8 @@ public class ConfigModelCreator {
 
     public static LoadTestConfiguration create() {
         LinkedHashSet<LoadTestArtifact> loadTests = new LinkedHashSet<>();
-        LoadTestArtifact oneLoadTest = createLoadTestModel();
-        LoadTestArtifact anotherLoadTest = createAnotherLoadTestModel();
+        LoadTestArtifact oneLoadTest = createLoadTestModel("First dqTest");
+        LoadTestArtifact anotherLoadTest = createLoadTestModel("Second dqTest");
         loadTests.add(oneLoadTest);
         loadTests.add(anotherLoadTest);
 
@@ -27,8 +27,7 @@ public class ConfigModelCreator {
         return config;
     }
 
-    private static LoadTestArtifact createLoadTestModel() {
-        String name = "First dqTest";
+    private static LoadTestArtifact createLoadTestModel(String name) {
         Artifact artifact = new Artifact();
         ResponseMeasure responseMeasure = new ResponseMeasure();
 
@@ -39,8 +38,7 @@ public class ConfigModelCreator {
         return loadTest;
     }
 
-    private static LoadTestArtifact createAnotherLoadTestModel() {
-        String name = "Seconds dqTest";
+    private static LoadTestArtifact createAnotherLoadTestModel(String name) {
         Artifact artifact = new Artifact();
         ResponseMeasure responseMeasure = new ResponseMeasure();
 
