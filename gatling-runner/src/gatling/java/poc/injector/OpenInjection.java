@@ -62,9 +62,10 @@ public class OpenInjection implements Injectable {
                 "\t DURATION: " + duration + " seconds"
         );
 
-        //TODO Lastkurve sieht noch fragwürdig aus
+        // since stressPeakUsers() will drop the users per second anyway, there is no need for a warm-up
+        // maybe we can replace it with rampUsersPerSec()
         return scenarioBuilder.injectOpen(
-                rampUsersPerSec(0).to(baseLoad).during(warmUpDuration),
+                //rampUsersPerSec(0).to(baseLoad).during(warmUpDuration),
                 stressPeakUsers(peakLoad).during(duration),
                 rampUsersPerSec(peakLoad).to(0).during(coolDownDuration)
         );

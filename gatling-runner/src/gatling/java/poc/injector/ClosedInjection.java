@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
 
-// TODO Lastkurven sehen noch ganz fragwürdig aus
 public class ClosedInjection implements Injectable {
     private final Logger logger = Logger.getLogger(ClosedInjection.class.getName());
     private final int warmUpDuration;
