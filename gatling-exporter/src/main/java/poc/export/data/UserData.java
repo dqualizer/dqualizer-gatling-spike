@@ -31,7 +31,7 @@ public class UserData extends DataObject {
     public LongPointData createCountData(long counter) {
         Attributes attributes = Attributes.of(
                 stringKey("type"), USER.name(),
-                stringKey("name"), this.name,
+                stringKey("user.name"), this.name,
                 stringKey("service.name"), SERVICE_NAME
         );
         return ImmutableLongPointData.create(

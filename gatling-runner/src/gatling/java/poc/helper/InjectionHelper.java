@@ -15,35 +15,30 @@ import poc.injector.OpenInjection;
 import java.util.logging.Logger;
 
 public class InjectionHelper {
-    private final Config stimulus;
 
-    public InjectionHelper() {
-        String configPath = FileConfig.getLocalGatlingConfigPath();
-        this.stimulus = ConfigFactory.load(configPath).getConfig("stimulus");
-    }
-
-    public PopulationBuilder getPopulationBuilder(ScenarioBuilder scenario) {
+    public PopulationBuilder getPopulationBuilder(ScenarioBuilder scenario, Config loadTest) {
+        Config stimulus = loadTest.getConfig("stimulus");
         String workload = stimulus.getString("workload");
+        Injectable injectable = this.getInjection(workload, stimulus);
         String profile = stimulus.getString("profile");
-        Injectable injectable = this.getInjection(workload);
 
         switch (profile) {
             case "increase" -> {
-                return injectable.createLoadIncreaseInjection(scenario);
+                return injectable.createLoadIncreaseInjection(scenario, loadTest);
             }
             case "peak" -> {
-                return injectable.createLoadPeakInjection(scenario);
+                return injectable.createLoadPeakInjection(scenario, loadTest);
             }
             case "constant" -> {
-                return injectable.createConstantLoadInjection(scenario);
+                return injectable.createConstantLoadInjection(scenario, loadTest);
             }
             default -> throw new UnknownTypeException(profile);
         }
     }
 
-    private Injectable getInjection(String workload) {
-        if(workload.equals("open")) return new OpenInjection();
-        else if(workload.equals("closed")) return new ClosedInjection();
+    private Injectable getInjection(String workload, Config stimulus) {
+        if(workload.equals("open")) return new OpenInjection(stimulus);
+        else if(workload.equals("closed")) return new ClosedInjection(stimulus);
         else throw new UnknownTypeException(workload);
     }
 }

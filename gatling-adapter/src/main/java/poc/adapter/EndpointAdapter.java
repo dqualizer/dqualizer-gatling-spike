@@ -18,13 +18,12 @@ public class EndpointAdapter {
 
     public String adapt(LoadTestArtifact loadTest) {
         StringBuilder builder = new StringBuilder();
-        builder.append("scenario {" + newLine);
+        builder.append("actions  = [" + newLine);
+        // TODO Use for-loop to allow multiple endpoints
+        builder.append(" {" + newLine);
 
         String name = this.getName(loadTest.getDescription());
         builder.append(name);
-
-        String repetition = "${stimulus.repetition}";
-        builder.append("repetition = " + repetition + newLine);
 
         Endpoint endpoint = loadTest.getEndpoint();
         String request = this.getRequestConfig(endpoint);
@@ -36,7 +35,8 @@ public class EndpointAdapter {
         String checks = this.getChecksConfig(endpoint);
         builder.append(checks);
 
-        builder.append("}" + newLine);
+        builder.append(" }" + newLine);
+        builder.append("]" + newLine);
         return builder.toString();
     }
 

@@ -25,7 +25,7 @@ public class RequestData extends DataObject {
     /** Fixed timestamp for OpenTelemetry */
     private final Long endTimestamp;
     private final StatusType status;
-    //private final String exception;
+    private final String exception;
 
     public RequestData(String[] simulationLine) {
         this.name = simulationLine[2];
@@ -34,16 +34,16 @@ public class RequestData extends DataObject {
         this.rawEndTimestamp = Long.parseLong(simulationLine[4]);
         this.endTimestamp = getFixedTimestamp(rawEndTimestamp);
         this.status = StatusType.valueOf(simulationLine[5]);
-        //this.exception = simulationLine[6];
+        this.exception = simulationLine[6];
     }
 
     @Override
     public LongPointData createCountData(long counter) {
         Attributes attributes = Attributes.of(
                 stringKey("type"), REQUEST.name(),
-                stringKey("name"), this.name,
+                stringKey("request.name"), this.name,
                 stringKey("status"), this.status.name(),
-                //stringKey("exception"), this.exception,
+                stringKey("exception"), this.exception,
                 stringKey("service.name"), SERVICE_NAME
         );
         return ImmutableLongPointData.create(
@@ -57,9 +57,9 @@ public class RequestData extends DataObject {
     public LongPointData createDurationData() {
         Attributes attributes = Attributes.of(
                 stringKey("type"), REQUEST.name(),
-                stringKey("name"), this.name,
+                stringKey("request.name"), this.name,
                 stringKey("status"), this.status.name(),
-                //stringKey("exception"), this.exception,
+                stringKey("exception"), this.exception,
                 stringKey("service.name"), SERVICE_NAME
         );
         Long duration = getDuration();

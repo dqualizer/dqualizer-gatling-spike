@@ -12,5 +12,8 @@ WORKDIR /app
 # Copy the executables from the build stage
 COPY --from=build app gatling-runner
 
-# Run the jar file
-ENTRYPOINT ["java", "-jar", "gatling-runner/build/libs/gatling-runner-all.jar"]
+# Grant execution rights
+RUN chmod +x gatling-runner/scripts/wait_for_file.sh
+
+# Run script, which waits for the gatling config file before running the jar file
+ENTRYPOINT ["gatling-runner/scripts/wait_for_file.sh" , "/app/gatling-runner/src/gatling/resources/config/dq-gatling.conf"]

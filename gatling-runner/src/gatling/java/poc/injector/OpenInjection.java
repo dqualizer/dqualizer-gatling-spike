@@ -14,23 +14,20 @@ import static io.gatling.javaapi.core.CoreDsl.*;
 
 public class OpenInjection implements Injectable {
     private final Logger logger = Logger.getLogger(OpenInjection.class.getName());
-    private final String newLine = System.lineSeparator();
-
-    private final String configPath = FileConfig.getLocalGatlingConfigPath();
-    private final Config stimulus = ConfigFactory.load(configPath).getConfig("stimulus");
-    private final Config injection = stimulus.getConfig("injectOpen");
-
     private final int warmUpDuration;
     private final int coolDownDuration;
+    private final Config injection;
 
-    public OpenInjection() {
+    public OpenInjection(Config stimulus) {
+        String configPath = FileConfig.getLocalGatlingConfigPath();
         Config technicalConfig = ConfigFactory.load(configPath).getConfig("technicalConstants");
         this.warmUpDuration = technicalConfig.getInt("warmUpDuration");
         this.coolDownDuration = technicalConfig.getInt("coolDownDuration");
+        this.injection = stimulus.getConfig(INJECT_OPEN);
     }
 
     @Override
-    public PopulationBuilder createLoadIncreaseInjection(ScenarioBuilder scenarioBuilder) {
+    public PopulationBuilder createLoadIncreaseInjection(ScenarioBuilder scenarioBuilder, Config loadTest) {
         Config increaseConfig = injection.getConfig("increase");
         double baseLoad = increaseConfig.getDouble("baseLoad");
         double highestLoad = increaseConfig.getDouble("highestLoad");
@@ -53,7 +50,7 @@ public class OpenInjection implements Injectable {
     }
 
     @Override
-    public PopulationBuilder createLoadPeakInjection(ScenarioBuilder scenarioBuilder) {
+    public PopulationBuilder createLoadPeakInjection(ScenarioBuilder scenarioBuilder, Config loadTest) {
         Config increaseConfig = injection.getConfig("peak");
         int baseLoad = increaseConfig.getInt("baseLoad");
         int peakLoad = increaseConfig.getInt("peakLoad");
@@ -65,16 +62,17 @@ public class OpenInjection implements Injectable {
                 "\t DURATION: " + duration + " seconds"
         );
 
-        //TODO Lastkurve sieht noch fragwürdig aus
+        // since stressPeakUsers() will drop the users per second anyway, there is no need for a warm-up
+        // maybe we can replace it with rampUsersPerSec()
         return scenarioBuilder.injectOpen(
-                rampUsersPerSec(0).to(baseLoad).during(warmUpDuration),
+                //rampUsersPerSec(0).to(baseLoad).during(warmUpDuration),
                 stressPeakUsers(peakLoad).during(duration),
                 rampUsersPerSec(peakLoad).to(0).during(coolDownDuration)
         );
     }
 
     @Override
-    public PopulationBuilder createConstantLoadInjection(ScenarioBuilder scenarioBuilder) {
+    public PopulationBuilder createConstantLoadInjection(ScenarioBuilder scenarioBuilder, Config loadTest) {
         Config increaseConfig = injection.getConfig("constant");
         int baseLoad = increaseConfig.getInt("baseLoad");
         double targetLoad = increaseConfig.getDouble("targetLoad");

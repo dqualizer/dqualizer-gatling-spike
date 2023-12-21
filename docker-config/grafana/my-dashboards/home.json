@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -106,7 +106,7 @@
             "uid": "P5697886F9CA74929"
           },
           "hide": false,
-          "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"request_duration\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"gauge\")\r\n  |> filter(fn: (r) => r[\"status\"] == \"OK\")\r\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:r.name}))",
+          "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"request_duration\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"gauge\")\r\n  |> filter(fn: (r) => r[\"request.name\"] =~ /${requestName:regex}/)\r\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:r[\"request.name\"]}))",
           "refId": "A"
         }
       ],
@@ -195,7 +195,7 @@
             "type": "influxdb",
             "uid": "P5697886F9CA74929"
           },
-          "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"request_count\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"gauge\")\r\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:r.name }))",
+          "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"request_count\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"gauge\")\r\n  |> filter(fn: (r) => r[\"request.name\"] =~ /${requestName:regex}/)\r\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:r[\"request.name\"]}))",
           "refId": "A"
         }
       ],
@@ -284,7 +284,7 @@
             "type": "influxdb",
             "uid": "P5697886F9CA74929"
           },
-          "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"request_failure_count\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"gauge\")\r\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:r.name }))",
+          "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"request_failure_count\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"gauge\")\r\n  |> filter(fn: (r) => r[\"request.name\"] =~ /${requestName:regex}/)\r\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:r[\"request.name\"]}))",
           "refId": "A"
         }
       ],
@@ -373,7 +373,7 @@
             "type": "influxdb",
             "uid": "P5697886F9CA74929"
           },
-          "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"user_count\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"gauge\")\r\n    |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:r.name}))",
+          "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"user_count\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"gauge\")\r\n    |> filter(fn: (r) => r[\"user.name\"] =~ /${userName:regex}/)\r\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:r[\"user.name\"]}))",
           "refId": "A"
         }
       ],
@@ -496,7 +496,7 @@
             "uid": "P5697886F9CA74929"
           },
           "hide": false,
-          "query": "from(bucket: v.bucket)\r\n|> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n|> filter(fn: (r) => r[\"_measurement\"] == \"request_count\")\r\n|> filter(fn: (r) => r[\"_field\"] == \"gauge\")\r\n|> last()\r\n|> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"All Requests\" }))",
+          "query": "from(bucket: v.bucket)\r\n|> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n|> filter(fn: (r) => r[\"_measurement\"] == \"request_count\")\r\n|> filter(fn: (r) => r[\"_field\"] == \"gauge\")\r\n|> last()\r\n|> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"All Requests\"}))",
           "refId": "A"
         },
         {
@@ -505,7 +505,7 @@
             "uid": "P5697886F9CA74929"
           },
           "hide": false,
-          "query": "from(bucket: v.bucket)\r\n|> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n|> filter(fn: (r) => r[\"_measurement\"] == \"request_failure_count\")\r\n|> filter(fn: (r) => r[\"_field\"] == \"gauge\")\r\n|> last()\r\n|> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Failed Requests\" }))",
+          "query": "from(bucket: v.bucket)\r\n|> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n|> filter(fn: (r) => r[\"_measurement\"] == \"request_failure_count\")\r\n|> filter(fn: (r) => r[\"_field\"] == \"gauge\")\r\n|> last()\r\n|> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Failed Requests\"}))",
           "refId": "B"
         },
         {
@@ -514,7 +514,7 @@
             "uid": "P5697886F9CA74929"
           },
           "hide": false,
-          "query": "from(bucket: \"my-bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"request_failure_rate\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"gauge\")\r\n  |> last()\r\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Error Rate \" }))",
+          "query": "from(bucket: \"my-bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"request_failure_rate\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"gauge\")\r\n  |> last()\r\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Error Rate\"}))",
           "refId": "C"
         }
       ],
@@ -647,7 +647,56 @@
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "definition": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: v.bucket,\r\n    tag: \"user.name\",\r\n    predicate: (r) => true,\r\n    start: -1d\r\n)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "User Name",
+        "multi": true,
+        "name": "userName",
+        "options": [],
+        "query": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: v.bucket,\r\n    tag: \"user.name\",\r\n    predicate: (r) => true,\r\n    start: -1d\r\n)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "definition": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: v.bucket,\r\n    tag: \"request.name\",\r\n    predicate: (r) => true,\r\n    start: -1d\r\n)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Request Name",
+        "multi": true,
+        "name": "requestName",
+        "options": [],
+        "query": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: v.bucket,\r\n    tag: \"request.name\",\r\n    predicate: (r) => true,\r\n    start: -1d\r\n)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
   },
   "time": {
     "from": "now-15m",
@@ -657,6 +706,6 @@
   "timezone": "",
   "title": "Gatling Metrics",
   "uid": "e8f4f8e4-b6cb-4eeb-9557-4d83be66991d",
-  "version": 29,
+  "version": 9,
   "weekStart": ""
 }

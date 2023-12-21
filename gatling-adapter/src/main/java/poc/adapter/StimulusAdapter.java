@@ -29,9 +29,6 @@ public class StimulusAdapter {
         builder.append("stimulus {" + newLine);
 
         Stimulus stimulus = loadTest.getStimulus();
-        int accuracy = stimulus.getAccuracy();
-        builder.append(this.getRepetitionConfig(accuracy));
-
         Workload workload = stimulus.getWorkload();
         builder.append(this.getWorkloadConfig(workload));
 
@@ -171,7 +168,6 @@ public class StimulusAdapter {
             profileBuilder.append("}" + newLine);
         }
         else throw new UnknownTypeException(loadProfile.getClass().getName());
-        profileBuilder.append("}" + newLine);
 
         configBuilder.append(selectProfile);
         configBuilder.append("injectClosed {" + newLine);
@@ -179,18 +175,5 @@ public class StimulusAdapter {
         configBuilder.append("}" + newLine);
 
         return configBuilder.toString();
-    }
-
-    private String getRepetitionConfig(int accuracy) {
-        GatlingConstants constants = constantsLoader.load();
-
-        Repetition repetitionConstants = constants.getAccuracy().getRepetition();
-
-        int max = repetitionConstants.getMax();
-        int min = repetitionConstants.getMin();
-
-        int calculatedRepetition = (int)(max * (accuracy/100.0));
-        int repetition = Math.max(calculatedRepetition, min);
-        return "repetition = " + repetition + newLine;
     }
 }
