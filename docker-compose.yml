@@ -1,22 +1,6 @@
 version: '3.9'
 
 services:
-  gatling-adapter:
-    container_name: "java-gatling-adapter"
-    build:
-      context: gatling-adapter
-      dockerfile: Dockerfile
-    volumes:
-      - ./docker-shared/config:/app/gatling-adapter/src/main/resources/config
-    ports:
-      - "8090:8090"
-    environment:
-      - GATLING_CONFIG_MODULE=gatling-adapter
-      - SPRING_RABBITMQ_HOST=rabbit
-    depends_on:
-      rabbit:
-        condition: service_healthy
-
   gatling-runner:
     container_name: "java-gatling-runner"
     build:
@@ -27,24 +11,12 @@ services:
       - ./docker-shared/results:/app/results
     ports:
       - "8091:8091"
-    depends_on:
-      gatling-adapter:
-        condition: service_started
-
-  gatling-exporter:
-    container_name: "java-gatling-exporter"
-    build:
-      context: gatling-exporter
-      dockerfile: Dockerfile
-    volumes:
-      - ./docker-shared/results/:/app/results
-    ports:
-      - "8092:8092"
     environment:
+      - SPRING_RABBITMQ_HOST=rabbit
       - OTEL_HOST=otel-collector
     depends_on:
-      gatling-runner:
-        condition: service_completed_successfully
+      rabbit:
+        condition: service_healthy
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.88.0

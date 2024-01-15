@@ -3,11 +3,14 @@ plugins {
     id 'io.gatling.gradle' version '3.9.5'
     // Plugin to create fatJar with gatling and dependencies
     id 'com.github.johnrengelman.shadow' version '8.1.1'
+
+    id 'org.springframework.boot' version '3.1.5'
+    id 'io.spring.dependency-management' version '1.1.3'
 }
 
 
 gatling {
-    logLevel = 'WARN'
+    logLevel = 'INFO'
     logHttp = 'ALL'
 }
 
@@ -30,16 +33,35 @@ sourceSets {
 }
 
 dependencies{
+    // Gatling
     implementation "io.gatling:gatling-app:3.9.5"
     implementation "io.gatling:gatling-core:3.9.5"
     implementation "io.gatling.highcharts:gatling-charts-highcharts:3.9.5"
 
-    // Import simulation.log
+    // Spring
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    // For some reason, the OpenTelemetry exporter only works when this dependency is included
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // json annotations
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.15.2'
+
+    // dqlang
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    // Reading of simulation.log
     // Latest version has transitive vulnerabilities
     implementation 'com.opencsv:opencsv:3.7'
 
+    // OpenTelemetry version has to match with spring version
     implementation 'io.opentelemetry:opentelemetry-exporter-otlp:1.19.0'
     implementation 'io.opentelemetry:opentelemetry-sdk:1.19.0'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
 }
 
 repositories {
