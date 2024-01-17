@@ -1,11 +1,8 @@
 package poc.gatling.simulation;
 
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 import io.gatling.javaapi.core.*;
 import poc.dqlang.gatling.GatlingConfiguration;
 import poc.dqlang.gatling.GatlingLoadTest;
-import poc.export.MetricExporter;
 import poc.gatling.helper.HttpProtocolHelper;
 import poc.gatling.helper.InjectionHelper;
 import poc.gatling.helper.ScenarioHelper;
@@ -30,7 +27,7 @@ public class DqSimulation extends Simulation {
     private final InjectionHelper injectionHelper = new InjectionHelper();
 
     private PopulationBuilder createPopulationBuilderChain() {
-        logger.config( "LOADED CONFIGURATION: " + config);
+        logger.info( "LOADED CONFIGURATION: " + config);
         List<PopulationBuilder> populations = new LinkedList<>();
         List<GatlingLoadTest> loadTests = config.getLoadTests();
         int testCounter = 1;

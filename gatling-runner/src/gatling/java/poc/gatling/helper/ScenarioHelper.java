@@ -20,7 +20,6 @@ public class ScenarioHelper {
     private final int thinkTime;
 
     public ScenarioHelper(GatlingConfiguration config) {
-        logger.info("CONFIG: " + config);
         this.context = config.getContext();
         this.thinkTime = config.getTechnicalConstants().getThinkTime();
         logger.info("Using THINK TIME: " + thinkTime + " seconds");
