@@ -1,9 +1,7 @@
 package poc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
 import poc.dqlang.loadtest.LoadTestConfiguration;
 
 import java.io.File;
@@ -12,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 public class ConfigTest {
 
     private final String file = "config.json";

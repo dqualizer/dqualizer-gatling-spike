@@ -1,4 +1,1 @@
-include 'gatling-adapter'
 include 'gatling-runner'
-include 'gatling-exporter'
-
