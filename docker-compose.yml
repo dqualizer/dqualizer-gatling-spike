@@ -4,7 +4,7 @@ services:
   gatling-runner:
     container_name: "java-gatling-runner"
     build:
-      context: gatling-runner
+      context: .
       dockerfile: Dockerfile
     volumes:
       - ./docker-shared/config:/app/gatling-runner/src/gatling/resources/config

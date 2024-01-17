@@ -20,7 +20,7 @@ public class ConfigurationReceiver {
      * Import the loadtest configuration and start the adaptation process
      * @param loadTestConfig Imported loadtest configuration
      */
-    //@RabbitListener(queues = LOAD_TEST_QUEUE)
+    @RabbitListener(queues = LOAD_TEST_QUEUE)
     public void receive(@Payload LoadTestConfiguration loadTestConfig) {
         // TODO Uncomment
         //adaptationManager.start(loadTestConfig);
