@@ -10,7 +10,7 @@ FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
 # Copy the executables from the build stage
-COPY --from=build app gatling-runner
+COPY --from=build app .
 
 # Run jar
-ENTRYPOINT ["java", "-jar", "gatling-runner/build/libs/gatling-runner.jar"]
+ENTRYPOINT ["java", "-jar", "build/libs/dqualizer-gatling-spike.jar"]

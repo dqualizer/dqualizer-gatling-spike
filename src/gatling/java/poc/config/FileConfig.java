@@ -8,8 +8,8 @@ import java.nio.file.Paths;
 @Slf4j
 public class FileConfig {
 
-    private static final String resourceDirectory = "src/gatling/resources/";
-    private static final String constantsPath = "constant/constants.json";
+    private static final String resourceDirectory = "/src/gatling/resources";
+    private static final String constantsPath = "/constant/constants.json";
 
     /**
      * Returns the absolute path of the results folder, which contains simulation results
@@ -27,11 +27,6 @@ public class FileConfig {
      * @return Absolute path of the constants file
      */
     public static String getConstantsPath() {
-        return getResourcePath(resourceDirectory + constantsPath);
-    }
-
-    private static String getResourcePath(String resource) {
-        Path resourceDirectory = Paths.get(resource).toAbsolutePath().normalize();
-        return resourceDirectory.toString();
+        return System.getProperty("user.dir") + resourceDirectory + constantsPath;
     }
 }
