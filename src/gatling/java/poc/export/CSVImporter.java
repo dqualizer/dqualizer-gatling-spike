@@ -5,8 +5,6 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.enums.CSVReaderNullFieldIndicator;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import poc.config.FileConfig;
 
@@ -18,17 +16,18 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import static poc.util.CustomLogger.printLog;
+
 /**
  * Util class, to import data from the last created simulation.log
  * The simulation.log can be read as a csv file, which uses '\t' as separator
  */
-@Slf4j
 @Component
 public class CSVImporter {
 
     public List<String[]> importMetrics() throws IOException {
         String simulationLogPath = getSimulationLogPath();
-        log.info("READING DATA FROM CSV: " + simulationLogPath);
+        printLog(this.getClass(), "READING DATA FROM CSV: " + simulationLogPath);
 
         return readCSV(simulationLogPath);
     }

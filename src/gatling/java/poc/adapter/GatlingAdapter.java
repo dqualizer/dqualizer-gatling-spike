@@ -1,17 +1,13 @@
 package poc.adapter;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import poc.dqlang.constants.LoadTestConstants;
-import poc.dqlang.constants.TechnicalConstants;
 import poc.dqlang.constants.accuracy.Repetition;
 import poc.dqlang.gatling.GatlingConfiguration;
 import poc.dqlang.gatling.GatlingLoadTest;
 import poc.dqlang.gatling.action.GatlingAction;
-import poc.dqlang.gatling.stimulus.GatlingInjection;
 import poc.dqlang.gatling.stimulus.GatlingStimulus;
-import poc.dqlang.loadtest.Endpoint;
 import poc.dqlang.loadtest.LoadTestArtifact;
 import poc.dqlang.loadtest.LoadTestConfiguration;
 import poc.dqlang.loadtest.stimulus.Stimulus;
@@ -22,7 +18,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Component
-@Slf4j
 public class GatlingAdapter {
 
     @Autowired

@@ -1,15 +1,13 @@
 package poc.config;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-@Slf4j
 public class FileConfig {
 
     private static final String resourceDirectory = "/src/gatling/resources";
     private static final String constantsPath = "/constant/constants.json";
+    private static final String resultsPath = "/results";
 
     /**
      * Returns the absolute path of the results folder, which contains simulation results
@@ -17,7 +15,7 @@ public class FileConfig {
      * @return Absolute path of results folder
      */
     public static Path getResultFilePath() {
-        String path = System.getProperty("user.dir") + "/results";
+        String path = System.getProperty("user.dir") + resultsPath;
         return Paths.get(path);
     }
 

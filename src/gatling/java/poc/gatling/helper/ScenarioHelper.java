@@ -10,19 +10,19 @@ import poc.dqlang.gatling.action.GatlingParams;
 import poc.exception.UnknownTypeException;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
+import static poc.util.CustomLogger.printLog;
 
 import java.util.List;
 import java.util.logging.Logger;
 
 public class ScenarioHelper {
-    private final Logger logger = Logger.getLogger(ScenarioHelper.class.getName());
     private final String context;
     private final int thinkTime;
 
     public ScenarioHelper(GatlingConfiguration config) {
         this.context = config.getContext();
         this.thinkTime = config.getTechnicalConstants().getThinkTime();
-        logger.info("Using THINK TIME: " + thinkTime + " seconds");
+        printLog(this.getClass(), "Using THINK TIME: " + thinkTime + " seconds");
     }
 
     public ScenarioBuilder getScenarioBuilder(GatlingLoadTest loadTest, int counter) {
@@ -33,7 +33,7 @@ public class ScenarioHelper {
         List<GatlingAction> actions = loadTest.getActions();
 
         if(actions.size() < 1) throw new IllegalStateException("Action list does not contain actions");
-        logger.info("Found " + actions.size() + " request action(s)");
+        printLog(this.getClass(), "Found " + actions.size() + " request action(s)");
 
         for(GatlingAction action : actions) {
             RequestHelper requestHelper = new RequestHelper(action);
@@ -54,14 +54,14 @@ public class ScenarioHelper {
         }
 
         int repetition = loadTest.getRepetition();
-        logger.info("Using REPETITION: " + repetition);
+        printLog(this.getClass(), "Using REPETITION: " + repetition);
 
         return scenarioBuilder.repeat(repetition).on(requestChain.pause(thinkTime));
     }
 
     // Currently, only json & csv are supported
     private FeederBuilder<?> getFeederBuilder(String feederPath) {
-        logger.info("Using FEEDER: " + feederPath);
+        printLog(this.getClass(), "Using FEEDER: " + feederPath);
 
         if(feederPath.endsWith(".json")) return jsonFile(feederPath);
         else if(feederPath.endsWith(".json.zip")) return jsonFile(feederPath).unzip();

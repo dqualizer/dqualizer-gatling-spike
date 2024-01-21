@@ -8,7 +8,6 @@ import io.opentelemetry.sdk.metrics.internal.data.ImmutableGaugeData;
 import io.opentelemetry.sdk.metrics.internal.data.ImmutableLongPointData;
 import io.opentelemetry.sdk.metrics.internal.data.ImmutableMetricData;
 import io.opentelemetry.sdk.resources.Resource;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import poc.exception.UnknownTypeException;
 import poc.export.data.RequestData;
@@ -29,7 +28,6 @@ import static io.opentelemetry.api.common.AttributeKey.stringKey;
 import static poc.export.data.DataObject.SERVICE_NAME;
 import static poc.export.data.GatlingSimulationType.*;
 
-@Slf4j
 @Component
 public class MetricBuilder {
 

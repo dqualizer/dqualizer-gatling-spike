@@ -10,7 +10,6 @@ import poc.dqlang.loadtest.LoadTestConfiguration;
 import static poc.config.MQConfig.LOAD_TEST_QUEUE;
 
 @Component
-@Slf4j
 public class ConfigurationReceiver {
 
     @Autowired

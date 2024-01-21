@@ -7,10 +7,9 @@ import poc.gatling.simulation.DqSimulation;
 import java.util.logging.Logger;
 
 import static io.gatling.javaapi.http.HttpDsl.http;
+import static poc.util.CustomLogger.printLog;
 
 public class HttpProtocolHelper {
-
-    private final Logger logger = Logger.getLogger(DqSimulation.class.getName());
     private final GatlingConfiguration config;
 
     public HttpProtocolHelper(GatlingConfiguration config) {
@@ -19,7 +18,7 @@ public class HttpProtocolHelper {
 
     public HttpProtocolBuilder createProtocolBuilder() {
         String baseURL = config.getBaseURL();
-        logger.info("BASEURL OF SIMULATION: " + baseURL);
+        printLog(this.getClass(), "BASEURL OF SIMULATION: " + baseURL);
 
         return http.baseUrl(baseURL);
     }

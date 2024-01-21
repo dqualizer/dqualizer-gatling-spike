@@ -14,11 +14,14 @@ import poc.dqlang.loadtest.LoadTestConfiguration;
 import poc.export.MetricExporter;
 import poc.gatling.simulation.DqSimulation;
 import poc.util.ConfigModelCreator;
+import poc.util.CustomLogger;
 
 import java.nio.file.Path;
 
+import static poc.util.CustomLogger.printError;
+import static poc.util.CustomLogger.printLog;
+
 @Component
-@Slf4j
 public class AdaptationManager {
 
     @Autowired
@@ -30,19 +33,19 @@ public class AdaptationManager {
     public void start()  {
         try { this.adapt(); }
         catch (Exception e) {
-            log.error("ADAPTATION FAILED: " + e.getMessage());
+            printError(this.getClass(), "ADAPTATION FAILED: " + e.getMessage());
             e.printStackTrace();
         }
 
         try { this.runGatling(); }
         catch (Exception e) {
-            log.error("GATLING FAILED: " + e.getMessage());
+            printError(this.getClass(), "GATLING FAILED: " + e.getMessage());
             e.printStackTrace();
         }
 
         try { exporter.export(); }
         catch (Exception e) {
-            log.error("EXPORT FAILED: " + e.getMessage());
+            printError(this.getClass(), "EXPORT FAILED: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -50,24 +53,22 @@ public class AdaptationManager {
     private void adapt() {
         // TODO Remove ConfigModelCreator
         LoadTestConfiguration configModel = ConfigModelCreator.create();
-        log.info("LOAD TEST CONFIG MODEL WAS CREATED");
+        printLog(this.getClass(), "LOAD TEST CONFIG MODEL WAS CREATED");
 
-        log.info("ADAPTING LOAD TEST");
+        printLog(this.getClass(), "ADAPTING LOAD TEST");
         GatlingConfiguration configuration = adapter.adapt(configModel);
-        log.info("LOAD TEST CONFIG WAS ADAPTED");
+        printLog(this.getClass(), "LOAD TEST CONFIG WAS ADAPTED");
 
         ConfigStorage.setConfiguration(configuration);
-        log.info("GATLING CONFIG WAS WRITTEN SUCCESSFULLY");
+        printLog(this.getClass(), "GATLING CONFIG WAS WRITTEN SUCCESSFULLY");
     }
 
     private void runGatling() {
-        log.info("RUNNING GATLING");
+        printLog(this.getClass(), "RUNNING GATLING");
         Path resultsPath = FileConfig.getResultFilePath();
-        log.info("RESULTS WILL BE WRITTEN HERE: " + resultsPath);
+        printLog(this.getClass(), "RESULTS WILL BE WRITTEN HERE: " + resultsPath);
 
         GatlingPropertiesBuilder props = new GatlingPropertiesBuilder().simulationClass(DqSimulation.class.getName());
         Gatling.fromMap(props.build());
-
-        // TODO For some reason, the logs are not shown after Gatling is finished
     }
 }

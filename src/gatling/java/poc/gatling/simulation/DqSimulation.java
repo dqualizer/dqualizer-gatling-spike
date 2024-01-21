@@ -13,13 +13,12 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import static io.gatling.javaapi.core.CoreDsl.global;
+import static poc.util.CustomLogger.printLog;
 
 /**
  * Gatling simulation template of dqualizer
  */
 public class DqSimulation extends Simulation {
-
-    private final Logger logger = Logger.getLogger(DqSimulation.class.getName());
     private final GatlingConfiguration config = ConfigStorage.getConfiguration();
 
     private final HttpProtocolHelper httpProtocolHelper = new HttpProtocolHelper(config);
@@ -27,18 +26,18 @@ public class DqSimulation extends Simulation {
     private final InjectionHelper injectionHelper = new InjectionHelper();
 
     private PopulationBuilder createPopulationBuilderChain() {
-        logger.info( "LOADED CONFIGURATION: " + config);
+        printLog(this.getClass(), "LOADED CONFIGURATION " + config);
         List<PopulationBuilder> populations = new LinkedList<>();
         List<GatlingLoadTest> loadTests = config.getLoadTests();
         int testCounter = 1;
 
         for(GatlingLoadTest loadTest : loadTests) {
-            logger.info("SETTING UP LOAD TEST " + testCounter);
+            printLog(this.getClass(), "SETTING UP LOAD TEST " + testCounter);
             ScenarioBuilder scenario = scenarioHelper.getScenarioBuilder(loadTest, testCounter);
             PopulationBuilder population = injectionHelper.getPopulationBuilder(scenario, loadTest);
             populations.add(population);
 
-            logger.info("SUCCESSFULLY SET UP LOAD TEST " + testCounter);
+            printLog(this.getClass(), "SUCCESSFULLY SET UP LOAD TEST " + testCounter);
             testCounter++;
         }
         if(populations.isEmpty()) throw new IllegalStateException("NO LOAD TESTS WERE CREATED");
@@ -58,12 +57,12 @@ public class DqSimulation extends Simulation {
 
     @Override
     public void before() {
-        logger.info("SIMULATION IS ABOUT TO START");
+        printLog(this.getClass(), "SIMULATION IS ABOUT TO START");
     }
 
     @Override
     public void after() {
-        logger.info("SIMULATION IS FINISHED");
+        printLog(this.getClass(), "SIMULATION IS FINISHED");
     }
 
     {

@@ -13,9 +13,9 @@ import poc.service.ConfigStorage;
 import java.util.logging.Logger;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
+import static poc.util.CustomLogger.printLog;
 
 public class OpenInjection implements Injectable {
-    private final Logger logger = Logger.getLogger(OpenInjection.class.getName());
     private final int warmUpDuration;
     private final int coolDownDuration;
 
@@ -33,8 +33,9 @@ public class OpenInjection implements Injectable {
         int timeToHighestLoad = profile.getTimeToHighestLoad();
         int constantDuration = profile.getConstantDuration();
 
-        logger.info("Running OPEN LOAD INCREASE with" + newLine +
-                        "\t BASE LOAD: " + baseLoad + " users" + newLine +
+        printLog(this.getClass(),
+                "Running CLOSED LOAD INCREASE with" + newLine +
+                        "\t BASE LOAD : " + baseLoad + " users" + newLine +
                         "\t HIGHEST LOAD: " + highestLoad + " users" + newLine +
                         "\t TIME TO HIGHEST LOAD: " + timeToHighestLoad + " seconds" + newLine +
                         "\t CONSTANT DURATION: " + constantDuration + " seconds"
@@ -54,10 +55,11 @@ public class OpenInjection implements Injectable {
         int peakLoad = profile.getPeakLoad();
         int duration = profile.getDuration();
 
-        logger.info("Running OPEN LOAD PEAK with" + newLine +
-                "\t BASE LOAD: " + baseLoad + " users" + newLine +
-                "\t PEAK LOAD: " + peakLoad + " users" + newLine +
-                "\t DURATION: " + duration + " seconds"
+        printLog(this.getClass(),
+                "Running CLOSED LOAD PEAK with" + newLine +
+                        "\t BASE LOAD : " + baseLoad + " users" + newLine +
+                        "\t PEAK LOAD: " + peakLoad + " users" + newLine +
+                        "\t DURATION: " + duration + " seconds"
         );
 
         // since stressPeakUsers() will drop the users per second anyway, there is no need for a warm-up
@@ -75,10 +77,11 @@ public class OpenInjection implements Injectable {
         double targetLoad = profile.getTargetLoad();
         int duration = profile.getDuration();
 
-        logger.info("Running OPEN CONSTANT LOAD with" + newLine +
-                "\t BASE LOAD: " + baseLoad + " users" + newLine +
-                "\t TARGET LOAD: " + targetLoad + " users" + newLine +
-                "\t DURATION: " + duration + " seconds"
+        printLog(this.getClass(),
+                "Running CLOSED CONSTANT LOAD with" + newLine +
+                        "\t BASE LOAD : " + baseLoad + " users" + newLine +
+                        "\t TARGET LOAD: " + targetLoad + " users" + newLine +
+                        "\t DURATION: " + duration + " seconds"
         );
 
         return scenarioBuilder.injectOpen(

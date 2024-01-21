@@ -13,9 +13,9 @@ import poc.service.ConfigStorage;
 import java.util.logging.Logger;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
+import static poc.util.CustomLogger.printLog;
 
 public class ClosedInjection implements Injectable {
-    private final Logger logger = Logger.getLogger(ClosedInjection.class.getName());
     private final int warmUpDuration;
     private final int coolDownDuration;
 
@@ -33,11 +33,12 @@ public class ClosedInjection implements Injectable {
         int timeToHighestLoad = profile.getTimeToHighestLoad();
         int constantDuration = profile.getConstantDuration();
 
-        logger.info("Running CLOSED LOAD INCREASE with" + newLine +
-                "\t BASE LOAD : " + baseLoad + " users" + newLine +
-                "\t HIGHEST LOAD: " + highestLoad + " users" + newLine +
-                "\t TIME TO HIGHEST LOAD: " + timeToHighestLoad + " seconds" + newLine +
-                "\t CONSTANT DURATION: " + constantDuration + " seconds"
+        printLog(this.getClass(),
+                "Running CLOSED LOAD INCREASE with" + newLine +
+                        "\t BASE LOAD : " + baseLoad + " users" + newLine +
+                        "\t HIGHEST LOAD: " + highestLoad + " users" + newLine +
+                        "\t TIME TO HIGHEST LOAD: " + timeToHighestLoad + " seconds" + newLine +
+                        "\t CONSTANT DURATION: " + constantDuration + " seconds"
         );
 
         return scenarioBuilder.injectClosed(
@@ -54,10 +55,11 @@ public class ClosedInjection implements Injectable {
         int peakLoad = profile.getPeakLoad();
         int duration = profile.getDuration();
 
-        logger.info("Running CLOSED LOAD PEAK with" + newLine +
-                "\t BASE LOAD : " + baseLoad + " users" + newLine +
-                "\t PEAK LOAD: " + peakLoad + " users" + newLine +
-                "\t DURATION: " + duration + " seconds"
+        printLog(this.getClass(),
+                "Running CLOSED LOAD PEAK with" + newLine +
+                        "\t BASE LOAD : " + baseLoad + " users" + newLine +
+                        "\t PEAK LOAD: " + peakLoad + " users" + newLine +
+                        "\t DURATION: " + duration + " seconds"
         );
 
         return scenarioBuilder.injectClosed(
@@ -73,10 +75,11 @@ public class ClosedInjection implements Injectable {
         int targetLoad = (int) profile.getTargetLoad();
         int duration = profile.getDuration();
 
-        logger.info("Running CLOSED CONSTANT LOAD with" + newLine +
-                "\t BASE LOAD : " + baseLoad + " users" + newLine +
-                "\t TARGET LOAD: " + targetLoad + " users" + newLine +
-                "\t DURATION: " + duration + " seconds"
+        printLog(this.getClass(),
+                "Running CLOSED CONSTANT LOAD with" + newLine +
+                        "\t BASE LOAD : " + baseLoad + " users" + newLine +
+                        "\t TARGET LOAD: " + targetLoad + " users" + newLine +
+                        "\t DURATION: " + duration + " seconds"
         );
 
         return scenarioBuilder.injectClosed(

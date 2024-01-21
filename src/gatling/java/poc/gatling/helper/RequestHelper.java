@@ -1,6 +1,5 @@
 package poc.gatling.helper;
 
-import com.typesafe.config.Config;
 import io.gatling.javaapi.core.ChainBuilder;
 import io.gatling.javaapi.core.CheckBuilder;
 import io.gatling.javaapi.http.HttpRequestActionBuilder;
@@ -13,15 +12,13 @@ import scala.jdk.CollectionConverters;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.logging.Logger;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.http;
 import static io.gatling.javaapi.http.HttpDsl.status;
+import static poc.util.CustomLogger.printLog;
 
 public class RequestHelper {
-    private final Logger logger = Logger.getLogger(RequestHelper.class.getName());
     private final GatlingAction action;
     private final GatlingParams params;
 
@@ -72,7 +69,7 @@ public class RequestHelper {
 
     private Map<String, Object> getQueryParams() {
         String queryParamsPath = params.getQueryParams();
-        logger.info("Using QUERY PARAMS: " + queryParamsPath);
+        printLog(this.getClass(), "Using QUERY PARAMS: " + queryParamsPath);
 
         List<Map<String,Object>> mapList = jsonFile(queryParamsPath).readRecords();
         // There should be only one object inside the list
@@ -94,7 +91,7 @@ public class RequestHelper {
 
     private Map<String,String> getHeaders() {
         String requestParamsPath = params.getRequestParams();
-        logger.info("Using REQUEST PARAMS: " + requestParamsPath);
+        printLog(this.getClass(), "Using REQUEST PARAMS: " + requestParamsPath);
 
         Map<String,Object> requestParams = jsonFile(requestParamsPath).readRecords().get(0);
 

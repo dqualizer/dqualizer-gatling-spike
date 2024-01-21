@@ -2,18 +2,16 @@ package poc.export;
 
 import io.opentelemetry.exporter.otlp.http.metrics.OtlpHttpMetricExporter;
 import io.opentelemetry.sdk.metrics.data.MetricData;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.LinkedList;
 import java.util.List;
 
-@Slf4j
+import static poc.util.CustomLogger.printError;
+import static poc.util.CustomLogger.printLog;
+
 @Component
 public class MetricExporter {
     private OtlpHttpMetricExporter exporter;
@@ -24,23 +22,23 @@ public class MetricExporter {
     private MetricBuilder metricBuilder;
 
     public void export() {
-        log.info("EXPORTING METRICS");
+        printLog(this.getClass(), "EXPORTING METRICS");
         this.buildExporter();
 
         List<String[]> records;
         try {
             records = csvImporter.importMetrics();
         } catch (IOException e) {
-            log.error("READING DATA FROM CSV FAILED");
+            printError(this.getClass(), "READING DATA FROM CSV FAILED");
             throw new RuntimeException(e);
         }
-        log.info("RAW METRICS HAVE BEEN READ FROM CSV");
+        printLog(this.getClass(), "RAW METRICS HAVE BEEN READ FROM CSV");
 
         List<MetricData> metricData = metricBuilder.buildMetrics(records);
-        log.info("METRICS HAVE BEEN CREATED FOR EXPORTER");
+        printLog(this.getClass(), "METRICS HAVE BEEN CREATED FOR EXPORTER");
 
         exporter.export(metricData);
-        log.info("METRICS HAVE BEEN EXPORTED");
+        printLog(this.getClass(), "METRICS HAVE BEEN EXPORTED");
     }
 
     private void buildExporter() {
@@ -49,7 +47,7 @@ public class MetricExporter {
                 .setEndpoint("http://" + otelHost + ":4318/v1/metrics")
                 .setTimeout(Duration.ofSeconds(1))
                 .build();
-        log.info("USING EXPORTER: " + exporter);
+        printLog(this.getClass(), "USING EXPORTER: " + exporter);
     }
 
     /**
