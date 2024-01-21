@@ -17,7 +17,7 @@ You can configure the project via the environmental variable `GATLING_CONFIG_MOD
 The gatling-runner provides a _Simulation_ template for gatling load tests. 
 To run load tests, a dqualizer gatling-configuration has to be provided **before building the project**. 
 
-An example for a dqualizer gatling configuration can be found [here](gatling-runner/src/gatling/resources/poc/gatling-example.conf).
+An example for a dqualizer gatling configuration can be found [here](src/gatling/resources/poc/gatling-example.conf).
 
 Gatling HTML-reports will be stored in the folder [results](results).
 
